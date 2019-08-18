@@ -25,6 +25,11 @@ body {
   color: indigo
 }
 
+main {
+	margin: 1rem auto;
+	padding: 1rem;
+}
+
 .mac {
   color: #03c;
   cursor: help
