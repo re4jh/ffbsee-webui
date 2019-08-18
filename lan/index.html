@@ -86,6 +86,7 @@
 				<div><label>Fastd Version: </label><span id="fastd_version">?</span></div>
 			</fieldset>
 		</section>
+
 		<section id="settings">
 			<fieldset>
 				<legend>Allgemeine Einstellungen</legend>
@@ -103,13 +104,35 @@
 			</fieldset>
 			<button type="button" onclick="save_data()">Speichern</button>
 		</section>
+
 		<section id="network">
 			<div id="other"></div>
 			<div id="assignment"></div>
 			<div id="wireless"></div>
 			<div id="switches"></div>
 			<button type="button" onclick="save_data()">Speichern</button>
-		<section>
+		</section>
+
+		<section id="wifiscan">
+			<fieldset id="wifiscan">
+				<legend>WLAN-Scan</legend>
+				<div>
+					<select id="wifiscan_selection"></select>
+					<button type="button" onclick="wifi_scan()">Scan starten</button>
+				</div>
+				<table id="wifiscan_table" style="display: none">
+					<tr>
+						<th>Name</th>
+						<th>BSS</th>
+						<th>Kanal</th>
+						<th>Signal</th>
+						<th>Typ</th>
+					</tr>
+					<tbody id="wifiscan_tbody"></tbody>
+				</table>
+			</fieldset>
+		</section>
+
 	</main>
 
 	<footer>
@@ -117,4 +140,5 @@
 	</footer>
 
 </body>
+
 </html>
