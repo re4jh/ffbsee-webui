@@ -37,6 +37,7 @@ section#home {
 
 section#settings,
 section#wifiscan,
+section#upgrade,
 section#network {
 	display: none;
 }
