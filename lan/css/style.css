@@ -35,7 +35,8 @@ section#home {
 	display: block;
 }
 
-section#settings {
+section#settings,
+section#network {
 	display: none;
 }
 
