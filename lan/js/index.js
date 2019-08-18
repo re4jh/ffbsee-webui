@@ -117,7 +117,7 @@ function formatSpeed(bytes) {
 	return (fmt == "-") ? "-" : (fmt + "/s");
 }
 
-function init() {
+function init_home() {
 	send("/cgi-bin/home", { }, function(data) {
 		var obj = fromUCI(data).misc.data;
 		for (var key in obj) {
