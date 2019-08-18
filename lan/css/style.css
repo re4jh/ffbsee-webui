@@ -22,7 +22,8 @@ html {
 
 body {
 	font: normal 16px verdana, arial, helvetica, sans-serif;
-	color: indigo
+	color: indigo;
+	min-height: 100vh;
 }
 
 main {
