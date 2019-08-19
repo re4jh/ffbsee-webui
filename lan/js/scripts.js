@@ -26,6 +26,30 @@ function setText(id, txt) {
 function inArray(item, array) {
 	return array.indexOf(item) != -1;
 }
+
+function reboot() {
+	if (!confirm("Neustart durchf\xFChren?")) return;
+	send("/cgi-bin/misc", {
+		func: "reboot"
+	}, function(data) {
+		setText('msg', data);
+	});
+}
+
+function setTitle() {
+	send("/cgi-bin/misc", {
+		func: "name"
+	}, function(name) {
+		if (name.length) {
+			$("title").textContent += " - " + name;
+		}
+	});
+}
+
+function logout() {
+	window.location = "https://none@" + window.location.host;
+}
+
 /* eof: shared-stuff */
 /* bof: home-stuff */
 function formatSize(bytes) {

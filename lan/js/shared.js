@@ -487,22 +487,3 @@ function nav_onclick()
 
 	return false;
 }
-
-function reboot() {
-	if(!confirm("Neustart durchf\xFChren?")) return;
-	send("/cgi-bin/misc", { func : "reboot" }, function(data) {
-		setText('msg', data);
-	});
-}
-
-function setTitle() {
-	send("/cgi-bin/misc", { func : "name" }, function(name) {
-		if(name.length) {
-			$("title").textContent += " - " + name;
-		}
-	});
-}
-
-function logout() {
-	window.location="https://none@" + window.location.host;
-}
