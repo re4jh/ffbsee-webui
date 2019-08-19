@@ -156,7 +156,6 @@ function init_home() {
 }
 
 /* eof: home-stuff */
-
 /* bof: network-stuff */
 
 /*
@@ -196,7 +195,7 @@ var txpower_choices = [
 	["auto", "auto"]
 ];
 
-function init() {
+function init_network() {
 	send("/cgi-bin/misc", {
 		func: "wifi_status"
 	}, function(data) {
@@ -1189,10 +1188,9 @@ function save_data() {
 	}
 }
 
-
 /* eof: network-stuff */
-
 /* bof: general-stuff */
+
 function section_toggle(section_selector) {
 	$('main section').hide();
 	$('section#' + section_selector).show();
@@ -1204,15 +1202,16 @@ function section_toggle(section_selector) {
 		case 'settings':
 			break;
 		case 'network':
+			init_network();
 			break;
 		case 'wifiscan':
 			break;
 		case 'upgrade':
 			break;
 		case 'password':
+			init_password();
 			break;
 	}
-
 }
 
 /* eof: general-stuff */
