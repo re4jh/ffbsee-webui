@@ -31,10 +31,7 @@ main {
 	padding: 1rem;
 }
 
-section#home {
-	display: block;
-}
-
+section#home,
 section#settings,
 section#wifiscan,
 section#upgrade,
