@@ -1,11 +1,5 @@
 
-function $(id) { return document.getElementById(id); }
-function show(e) { e.style.display = 'block'; }
-function hide(e) { e.style.display = 'none'; }
-function addClass(e, c) { e.classList.add(c); }
-function removeClass(e, c) { e.classList.remove(c); }
-function setText(id, txt) { $(id).innerHTML = txt; }
-function inArray(item, array) { return array.indexOf(item) != -1; }
+
 
 function split(str)
 {
