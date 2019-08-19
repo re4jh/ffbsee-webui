@@ -24,7 +24,7 @@ function setText(id, txt) {
 }
 
 function inArray(item, array) {
-	return array.indexOf(item) != -1;
+	return array.indexOf(item) !== -1;
 }
 
 function reboot() {
@@ -51,9 +51,10 @@ function logout() {
 }
 
 /* eof: shared-stuff */
+
 /* bof: home-stuff */
 function formatSize(bytes) {
-	if (typeof bytes === "undefined" || bytes == "") {
+	if (typeof bytes === "undefined" || bytes === "") {
 		return "-";
 	} else if (bytes < 1000) {
 		return bytes + "  B";
@@ -68,7 +69,7 @@ function formatSize(bytes) {
 
 function formatSpeed(bytes) {
 	var fmt = formatSize(bytes);
-	return (fmt == "-") ? "-" : (fmt + "/s");
+	return (fmt === "-") ? "-" : (fmt + "/s");
 }
 
 function init_home() {
@@ -77,7 +78,7 @@ function init_home() {
 		for (var key in obj) {
 			var value = obj[key];
 
-			if (key == 'stype') {
+			if (key === 'stype') {
 				continue;
 			}
 
@@ -109,6 +110,7 @@ function init_home() {
 	addHelpText($("lan_user_count"), "Die Anzahl der Nutzer an diesem Router in den letzten zwei Stunden.");
 	addHelpText($("vpn_server"), "Der VPN-Server im Internet, mit dem der Knoten verbunden ist.");
 }
+
 /* eof: home-stuff */
 
 /* bof: network-stuff */
@@ -241,9 +243,9 @@ function appendSetting(p, path, value, mode) {
 			addInputCheck(b.lastChild, /^[\S]{8,32}$/, "Bitte nur ein Passwort aus mindestens acht sichbaren Zeichen verwenden.");
 			break;
 		case "hwmode":
-			if (value == "11g") {
+			if (value === "11g") {
 				value = "802.11g (2.4 GHz)";
-			} else if (value == "11a") {
+			} else if (value === "11a") {
 				value = "802.11a (5 GHz)";
 			} else {
 				value = "802." + value;
@@ -257,7 +259,7 @@ function appendSetting(p, path, value, mode) {
 			addInputCheck(b.lastChild, /^[^\x00-\x1F\x80-\x9F]{3,30}$/, "Mesh ID ist ung\xfcltig.");
 			break;
 		case "ssid":
-			if (value == "Freifunk") {
+			if (value === "Freifunk") {
 				b = append_label(p, "SSID", "Freifunk");
 			} else {
 
@@ -277,8 +279,8 @@ function appendSetting(p, path, value, mode) {
 				e.onclick = function(e) {
 					var src = (e.target || e.srcElement);
 					var val = (src.data || src.value);
-					if (val != value) {
-						if (val == "1") {
+					if (val !== value) {
+						if (val === "1") {
 							uci.network['wan_mesh'] = {
 								stype: 'interface',
 								ifname: '@wan',
@@ -336,10 +338,10 @@ function getInterfaceMode(ifname) {
 function getWifiMode(id) {
 	var obj = uci.wireless[id];
 
-	if (obj.network == "freifunk") return "freifunk";
-	if (obj.network == "lan") return "lan";
-	if (obj.network == "wan") return "wan";
-	if (obj.mode == "mesh") return "mesh";
+	if (obj.network === "freifunk") return "freifunk";
+	if (obj.network === "lan") return "lan";
+	if (obj.network === "wan") return "wan";
+	if (obj.mode === "mesh") return "mesh";
 
 	return "none";
 }
@@ -407,7 +409,7 @@ function rebuild_assignment() {
 	ifnames.sort();
 	for (var i in ifnames) {
 		var ifname = ifnames[i];
-		if ((ifname.length == 0) || inArray(ifname, ignore) || ifname[0] == "@") {
+		if ((ifname.length === 0) || inArray(ifname, ignore) || ifname[0] === "@") {
 			continue;
 		}
 		var mode = getInterfaceMode(ifname);
@@ -420,7 +422,7 @@ function rebuild_assignment() {
 function collect_wifi_info(device) {
 	var modes = [];
 	config_foreach(uci.wireless, "wifi-iface", function(id, obj) {
-		if (device == obj.device)
+		if (device === obj.device)
 			modes.push(getWifiMode(id));
 	});
 	return {
@@ -430,7 +432,7 @@ function collect_wifi_info(device) {
 
 function modeName(mode) {
 	for (var i in net_options) {
-		if (net_options[i][1] == mode) {
+		if (net_options[i][1] === mode) {
 			return net_options[i][0];
 		}
 	}
@@ -479,7 +481,7 @@ function delNetSection(ifname) {
 	var n = uci.network;
 
 	config_foreach(n, "interface", function(id, obj) {
-		if (obj.ifname == ifname && !inArray(id, ['wan', 'lan', 'freifunk']))
+		if (obj.ifname === ifname && !inArray(id, ['wan', 'lan', 'freifunk']))
 			delete n[id];
 	});
 
@@ -583,8 +585,8 @@ function delWifiSection(dev, mode) {
 	var n = uci.network;
 
 	config_foreach(w, "wifi-iface", function(id, obj) {
-		if (obj.device == dev && getWifiMode(id) == mode) {
-			if (mode == "mesh") {
+		if (obj.device === dev && getWifiMode(id) === mode) {
+			if (mode === "mesh") {
 				delete n[obj.network];
 				n.pchanged = true;
 			}
@@ -604,7 +606,7 @@ function getWifiInterfaceState(dev, wid) {
 	var interfaces = obj['interfaces'];
 	for (var i = 0; interfaces && i < interfaces.length; i++) {
 		var e = interfaces[i];
-		if (e.section == wid) {
+		if (e.section === wid) {
 			return ('ifname' in e) ? "Aktiv" : "Fehler";
 		}
 	}
@@ -614,10 +616,10 @@ function getWifiInterfaceState(dev, wid) {
 function countWifi(mode, wmode) {
 	var n = 0;
 	config_foreach(uci.wireless, "wifi-iface", function(wid, wobj) {
-		if (wmode && wobj['mode'] != wmode) {
+		if (wmode && wobj['mode'] !== wmode) {
 			return;
 		}
-		if (getWifiMode(wid) == mode) n++;
+		if (getWifiMode(wid) === mode) n++;
 	});
 	return n;
 }
@@ -629,8 +631,8 @@ function countOther(mode) {
 // Make sure we use only one interface for WAN
 // when using WAN of Wifi. Otherwise it won't work.
 function setWanMode(mode) {
-	var changed = (uci['network']['wan']['mode'] == mode);
-	if (mode == 'static' || mode == 'bridge') {
+	var changed = (uci['network']['wan']['mode'] === mode);
+	if (mode === 'static' || mode === 'bridge') {
 		uci['network']['wan']['mode'] = mode;
 		uci['network'].pchanged = changed;
 	}
@@ -664,10 +666,10 @@ function rebuild_wifi() {
 
 		// Print wireless interfaces.
 		config_foreach(uci.wireless, "wifi-iface", function(wid, wobj) {
-			if (wobj.device != dev) return;
+			if (wobj.device !== dev) return;
 
 			var mode = getWifiMode(wid);
-			var title = (mode == "none") ? "'" + wobj.network + "'" : modeName(mode);
+			var title = (mode === "none") ? "'" + wobj.network + "'" : modeName(mode);
 			var entry = append_section(parent, title, "wireless_" + dev + "_" + mode);
 
 			for (var opt in wobj)
@@ -677,7 +679,7 @@ function rebuild_wifi() {
 			var b = append_label(entry, "Status", state);
 			addHelpText(b, "Funktioniert das Interface? Manche WLAN-Treiber k\xf6nnen z.B kein AccessPoint und Mesh gleichzeitig.");
 
-			if (mode == "none") {
+			if (mode === "none") {
 				append_button(entry, "L\xf6schen", function() {
 					delWifiSection(dev, mode);
 					rebuild_wifi();
@@ -693,7 +695,7 @@ function rebuild_wifi() {
 				var mode = (src.data || src.value);
 
 				if (src.checked) {
-					if (obj.type != "mac80211")
+					if (obj.type !== "mac80211")
 						alert("Diese Betriebsweise wird von diesem Chipsatz nicht unterst\xfctzt!");
 					addWifiSection(dev, mode);
 				} else {
@@ -892,7 +894,7 @@ function collect_switch_info(device) {
 function getSwitchVid(port, swinfo) {
 	var found_vid;
 	config_foreach(uci.network, "switch_vlan", function(vid, vobj) {
-		if (vobj.device == swinfo.device && vobj.ports.indexOf(port) != -1) {
+		if (vobj.device === swinfo.device && vobj.ports.indexOf(port) !== -1) {
 			found_vid = vid;
 			return false;
 		}
@@ -903,8 +905,8 @@ function getSwitchVid(port, swinfo) {
 function countPortUse(port, swinfo) {
 	var count = 0;
 	config_foreach(uci.network, "switch_vlan", function(vid, vobj) {
-		if (vobj.device == swinfo.device) {
-			count += (vobj.ports.indexOf(port) != -1);
+		if (vobj.device === swinfo.device) {
+			count += (vobj.ports.indexOf(port) !== -1);
 		}
 	});
 	return count;
@@ -951,9 +953,9 @@ function getInterfaceName(vid, swinfo) {
 	for (var i in swinfo.map) {
 		var v = swinfo.map[i];
 		if (v[0].startsWith("eth")) {
-			if (vobj.ports.indexOf("" + v[1] + "t") != -1) {
+			if (vobj.ports.indexOf("" + v[1] + "t") !== -1) {
 				return v[0] + "." + vobj.vlan;
-			} else if (vobj.ports.indexOf(v[1]) != -1) {
+			} else if (vobj.ports.indexOf(v[1]) !== -1) {
 				return v[0];
 			}
 		}
@@ -970,7 +972,7 @@ function getBasePort(port, swinfo) {
 		if (v[0].startsWith("eth")) {
 			bport = v[1];
 		}
-		if (v[1] == port) {
+		if (v[1] === port) {
 			return bport;
 		}
 	}
@@ -1004,7 +1006,7 @@ function addPort(port, mode, swinfo) {
 	var vlans = [];
 	var added = config_foreach(uci.network, "switch_vlan", function(vid, vobj) {
 		vlans.push(parseInt(vobj.vlan));
-		if (vobj.device == swinfo.device && vobj.ports.indexOf(bport) != -1) {
+		if (vobj.device === swinfo.device && vobj.ports.indexOf(bport) !== -1) {
 			var ifname = getInterfaceName(vid, swinfo);
 			if (getInterfaceMode(ifname) == mode) {
 				vobj.ports = addItem(vobj.ports, port);
@@ -1018,7 +1020,7 @@ function addPort(port, mode, swinfo) {
 		var vlan = vlans.sort(function(a, b) {
 			return a - b
 		}).reduce(function(r, v, i) {
-			return (r < vlans.length) ? r : ((i + 1 != v) ? i + 1 : r);
+			return (r < vlans.length) ? r : ((i + 1 !== v) ? i + 1 : r);
 		}, vlans.length + 1);
 
 		var ports = "" + bport;
@@ -1109,7 +1111,7 @@ function checkWifiWan() {
 		new_mode = 'static';
 	}
 
-	if (pre_mode != new_mode) {
+	if (pre_mode !== new_mode) {
 		uci.network.wan.type = new_mode;
 		uci.network.pchanged = true;
 	}
@@ -1145,6 +1147,7 @@ function save_data() {
 
 
 /* eof: network-stuff */
+
 /* bof: general-stuff */
 function section_toggle(section_selector) {
 	$('main section').hide();
@@ -1168,4 +1171,4 @@ function section_toggle(section_selector) {
 
 }
 
-/* eof: general-stuff*/
+/* eof: general-stuff */
