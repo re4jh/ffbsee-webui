@@ -222,6 +222,18 @@ nav {
 	display: none
 }
 
+label[for="s1"] {
+	display: block;
+	text-align: left;
+}
+
+#s1 {
+	display: block;
+	clear: both;
+	min-width: 100%;
+	margin: 1rem 0px;
+}
+
 @media screen and (max-width:960px) {
 	#globalnav li:not(:first-child) {
 		display: none
