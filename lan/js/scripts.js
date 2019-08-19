@@ -1,8 +1,4 @@
 /* bof: shared-stuff */
-function $(id) {
-	return document.getElementById(id);
-}
-
 function show(e) {
 	e.style.display = 'block';
 }
