@@ -48,10 +48,6 @@ function logout() {
 
 /* eof: shared-stuff */
 /* bof: password-stuff */
-function init_password() {
-	$("p1").focus();
-}
-
 function apply() {
 	p1 = $('p1').value;
 	p2 = $('p2').value;
@@ -1205,7 +1201,6 @@ function section_toggle(section_selector) {
 		case 'upgrade':
 			break;
 		case 'password':
-			init_password();
 			break;
 	}
 }
