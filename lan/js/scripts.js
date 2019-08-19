@@ -62,6 +62,23 @@ function init_home() {
 function section_toggle(section_selector) {
 	$('main section').hide();
 	$('section#' + section_selector).show();
+
+	switch (section_selector) {
+		case 'home':
+			init_home();
+			break;
+		case 'settings':
+			break;
+		case 'network':
+			break;
+		case 'wifiscan':
+			break;
+		case 'upgrade':
+			break;
+		case 'password':
+			break;
+	}
+
 }
 
 /* eof: general-stuff*/
