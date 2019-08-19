@@ -1191,17 +1191,19 @@ function section_toggle(section_selector) {
 		case 'home':
 			init_home();
 			break;
-		case 'settings':
-			break;
 		case 'network':
 			init_network();
 			break;
-		case 'wifiscan':
-			break;
-		case 'upgrade':
-			break;
-		case 'password':
-			break;
+			/*
+					case 'settings':
+						break;
+					case 'wifiscan':
+						break;
+					case 'upgrade':
+						break;
+					case 'password':
+						break;
+				*/
 	}
 }
 
