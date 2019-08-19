@@ -14,6 +14,7 @@
 			$('pre#msg').hide();
 		});
 	</script>
+	<script src="js/scripts.js"></script>
 </head>
 
 <body onload="preselect(); setTitle();">
@@ -24,12 +25,12 @@
 
 	<nav>
 		<ul id="globalnav">
-			<li><a href="home.html" id="first">Home</a></li>
-			<li><a href="settings.html">Einstellungen</a></li>
-			<li><a href="network.html">Netzwerk</a></li>
-			<li><a href="wifiscan.html">WLAN-Scan</a></li>
-			<li><a href="upgrade.html">Upgrade</a></li>
-			<li><a href="password.html">Passwort</a></li>
+			<li><a href="#" onclick="section_toggle('home')" id="menu_home">Home</a></li>
+			<li><a href="#" onclick="section_toggle('settings')" id="menu_settings">Einstellungen</a></li>
+			<li><a href="#" onclick="section_toggle('network')" id="menu_network">Netzwerk</a></li>
+			<li><a href="#" onclick="section_toggle('wifiscan')" id="menu_wifiscan">WLAN-Scan</a></li>
+			<li><a href="#" onclick="section_toggle('upgrade')" id="menu_upgrade">Upgrade</a></li>
+			<li><a href="#" onclick="section_toggle('password')" id="menu_password">Passwort</a></li>
 			<li><a href="#" onclick="reboot()">Neustart</a></li>
 			<li><a href="#" onclick="logout()">Logout</a></li>
 			<li><a href="#" onclick="adv_toggle(this)">Erweitert: Aus</a></li>
