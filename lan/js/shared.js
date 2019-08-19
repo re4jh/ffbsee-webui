@@ -494,16 +494,6 @@ function nav_onclick()
 	return false;
 }
 
-function preselect() {
-	onDesc($("globalnav"), 'UL', function(n) { hide(n); });
-	onDesc($("globalnav"), 'A', function(n) {
-		if(n.getAttribute("href") != '#')
-			n.onclick = nav_onclick;
-	});
-	// Select the first tab.
-	$("first").onclick();
-}
-
 function reboot() {
 	if(!confirm("Neustart durchf\xFChren?")) return;
 	send("/cgi-bin/misc", { func : "reboot" }, function(data) {
