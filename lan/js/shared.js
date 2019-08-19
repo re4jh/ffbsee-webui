@@ -18,7 +18,7 @@ function addItem(str, item)
 {
 	var array = split(str);
 	for (var i in array) {
-		if (array[i] == item) {
+		if (array[i] === item) {
 			return str;
 		}
 	}
@@ -30,7 +30,7 @@ function replaceItem(str, old_item, new_item)
 {
 	var array = split(str);
 	for (var i in array) {
-		if (array[i] == old_item) {
+		if (array[i] === old_item) {
 			array[i] = new_item;
 		}
 	}

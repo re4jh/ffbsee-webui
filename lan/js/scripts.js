@@ -107,7 +107,7 @@ function apply() {
 		}
 	}
 
-	if (s1 == "") {
+	if (s1 === "") {
 		setText('msg', "");
 	} else {
 		send("/cgi-bin/sshpubkey", {
