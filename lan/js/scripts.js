@@ -46,8 +46,40 @@ function logout() {
 	window.location = "https://none@" + window.location.host;
 }
 
+function adv_apply() {
+	var inputs = document.getElementsByClassName('adv_disable');
+	var elems = document.getElementsByClassName('adv_hide');
+
+	for (var i = 0; i < inputs.length; i++)
+		inputs[i].disabled = adv_mode ? "" : "disabled";
+	for (var i = 0; i < elems.length; i++)
+		elems[i].style.display = adv_mode ? "block" : "none";
+}
+
+function adv_toggle(e) {
+	adv_mode = !adv_mode;
+	e.innerHTML = adv_mode ? "Erweitert: An" : "Erweitert: Aus";
+	adv_apply();
+}
+
+
+function split(str) {
+	if (typeof str != 'string') {
+		return [];
+	}
+	var a = str.match(/[^\s]+/g);
+	return (a ? a : []);
+}
+
+function uniq(arr) {
+	var obj = {};
+	for (var i in arr) obj[arr[i]] = 0;
+	return Object.keys(obj);
+}
+
 /* eof: shared-stuff */
 /* bof: password-stuff */
+
 function apply() {
 	p1 = $('p1').value;
 	p2 = $('p2').value;
