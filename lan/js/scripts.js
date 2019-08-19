@@ -27,7 +27,7 @@ function reboot() {
 	if (!confirm("Neustart durchf\xFChren?")) return;
 	send("/cgi-bin/misc", {
 		func: "reboot"
-	}, function(data) {
+	}, function (data) {
 		setText('msg', data);
 	});
 }
@@ -35,7 +35,7 @@ function reboot() {
 function setTitle() {
 	send("/cgi-bin/misc", {
 		func: "name"
-	}, function(name) {
+	}, function (name) {
 		if (name.length) {
 			$("title").textContent += " - " + name;
 		}
@@ -69,7 +69,7 @@ function apply() {
 				func: "set_password",
 				pass1: p1,
 				pass2: p2
-			}, function(data) {
+			}, function (data) {
 				setText('msg', data);
 			});
 		}
@@ -81,13 +81,14 @@ function apply() {
 		send("/cgi-bin/sshpubkey", {
 			func: "set_sshpubkey",
 			sshpubkey: s1
-		}, function(data) {
+		}, function (data) {
 			setText('msg', data);
 		});
 	}
 }
 
 /* eof: password-stuff */
+
 /* bof: home-stuff */
 function formatSize(bytes) {
 	if (typeof bytes === "undefined" || bytes === "") {
@@ -109,7 +110,7 @@ function formatSpeed(bytes) {
 }
 
 function init_home() {
-	send("/cgi-bin/home", {}, function(data) {
+	send("/cgi-bin/home", {}, function (data) {
 		var obj = fromUCI(data).misc.data;
 		for (var key in obj) {
 			var value = obj[key];
@@ -129,7 +130,7 @@ function init_home() {
 			}
 
 			//for addresses
-			if (typeof(value) == 'object') {
+			if (typeof (value) == 'object') {
 				value = "<ul><li>" + value.join("</li><li>") + "</li></ul>"
 			}
 
@@ -190,11 +191,11 @@ var txpower_choices = [
 function init_network() {
 	send("/cgi-bin/misc", {
 		func: "wifi_status"
-	}, function(data) {
+	}, function (data) {
 		wifi_status = JSON.parse(data);
 		send("/cgi-bin/network", {
 			func: "get_settings"
-		}, function(data) {
+		}, function (data) {
 			uci = fromUCI(data);
 			rebuild_other();
 			rebuild_assignment();
@@ -222,7 +223,7 @@ function updateFrom(src) {
 }
 
 function getChangeModeAction(ifname) {
-	return function(e) {
+	return function (e) {
 		var src = (e.target || e.srcElement);
 		var mode = (src.data || src.value);
 		delNetSection(ifname);
@@ -310,8 +311,8 @@ function appendSetting(p, path, value, mode) {
 				["Ja", "1"],
 				["Nein", "0"]
 			]);
-			onDesc(b, "INPUT", function(e) {
-				e.onclick = function(e) {
+			onDesc(b, "INPUT", function (e) {
+				e.onclick = function (e) {
 					var src = (e.target || e.srcElement);
 					var val = (src.data || src.value);
 					if (val !== value) {
@@ -342,7 +343,7 @@ function appendSetting(p, path, value, mode) {
 	}
 
 	b.id = id; // Needed for updateFrom.
-	b.onchange = function() {
+	b.onchange = function () {
 		updateFrom(b);
 	};
 
@@ -362,9 +363,9 @@ function getInterfaceMode(ifname) {
 		return "wan";
 
 	if (config_find(n, {
-			'ifname': ifname,
-			'proto': 'batadv_hardif'
-		}))
+		'ifname': ifname,
+		'proto': 'batadv_hardif'
+	}))
 		return "mesh";
 
 	return "none";
@@ -423,20 +424,20 @@ function rebuild_assignment() {
 	}
 
 	// Collect all interfaces.
-	config_foreach(uci.network, "interface", function(sid, sobj) {
+	config_foreach(uci.network, "interface", function (sid, sobj) {
 		if (sobj.ifname) ifnames = ifnames.concat(split(sobj.ifname));
 	});
 
 	// Ignore switch interfaces.
-	config_foreach(uci.network, "switch", function(sid, sobj) {
+	config_foreach(uci.network, "switch", function (sid, sobj) {
 		var swinfo = collect_switch_info(sobj.name);
-		config_foreach(uci.network, "switch_vlan", function(vid, vobj) {
+		config_foreach(uci.network, "switch_vlan", function (vid, vobj) {
 			ignore.push(getInterfaceName(vid, swinfo));
 		});
 	});
 
 	// Ignore wlan interfaces.
-	config_foreach(uci.wireless, "wifi-iface", function(sid, sobj) {
+	config_foreach(uci.wireless, "wifi-iface", function (sid, sobj) {
 		if (sobj.ifname) ignore.push(sobj.ifname);
 	});
 
@@ -456,7 +457,7 @@ function rebuild_assignment() {
 
 function collect_wifi_info(device) {
 	var modes = [];
-	config_foreach(uci.wireless, "wifi-iface", function(id, obj) {
+	config_foreach(uci.wireless, "wifi-iface", function (id, obj) {
 		if (device === obj.device)
 			modes.push(getWifiMode(id));
 	});
@@ -515,7 +516,7 @@ function addNetSection(ifname, mode) {
 function delNetSection(ifname) {
 	var n = uci.network;
 
-	config_foreach(n, "interface", function(id, obj) {
+	config_foreach(n, "interface", function (id, obj) {
 		if (obj.ifname === ifname && !inArray(id, ['wan', 'lan', 'freifunk']))
 			delete n[id];
 	});
@@ -619,7 +620,7 @@ function delWifiSection(dev, mode) {
 	var w = uci.wireless;
 	var n = uci.network;
 
-	config_foreach(w, "wifi-iface", function(id, obj) {
+	config_foreach(w, "wifi-iface", function (id, obj) {
 		if (obj.device === dev && getWifiMode(id) === mode) {
 			if (mode === "mesh") {
 				delete n[obj.network];
@@ -650,7 +651,7 @@ function getWifiInterfaceState(dev, wid) {
 
 function countWifi(mode, wmode) {
 	var n = 0;
-	config_foreach(uci.wireless, "wifi-iface", function(wid, wobj) {
+	config_foreach(uci.wireless, "wifi-iface", function (wid, wobj) {
 		if (wmode && wobj['mode'] !== wmode) {
 			return;
 		}
@@ -678,7 +679,7 @@ function rebuild_wifi() {
 	removeChilds(root);
 
 	// Print wireless sections.
-	config_foreach(uci.wireless, "wifi-device", function(dev, obj) {
+	config_foreach(uci.wireless, "wifi-device", function (dev, obj) {
 		var fs = append_section(root, "Wireless '" + dev + "'", dev);
 		var info = collect_wifi_info(dev);
 
@@ -700,7 +701,7 @@ function rebuild_wifi() {
 		var parent = append(fs, "div");
 
 		// Print wireless interfaces.
-		config_foreach(uci.wireless, "wifi-iface", function(wid, wobj) {
+		config_foreach(uci.wireless, "wifi-iface", function (wid, wobj) {
 			if (wobj.device !== dev) return;
 
 			var mode = getWifiMode(wid);
@@ -715,7 +716,7 @@ function rebuild_wifi() {
 			addHelpText(b, "Funktioniert das Interface? Manche WLAN-Treiber k\xf6nnen z.B kein AccessPoint und Mesh gleichzeitig.");
 
 			if (mode === "none") {
-				append_button(entry, "L\xf6schen", function() {
+				append_button(entry, "L\xf6schen", function () {
 					delWifiSection(dev, mode);
 					rebuild_wifi();
 					adv_apply();
@@ -724,8 +725,8 @@ function rebuild_wifi() {
 		});
 
 		// Add or remove a wifi interface.
-		onDesc(mode_checks, "INPUT", function(e) {
-			e.onclick = function(e) {
+		onDesc(mode_checks, "INPUT", function (e) {
+			e.onclick = function (e) {
 				var src = (e.target || e.srcElement);
 				var mode = (src.data || src.value);
 
@@ -928,7 +929,7 @@ function collect_switch_info(device) {
 
 function getSwitchVid(port, swinfo) {
 	var found_vid;
-	config_foreach(uci.network, "switch_vlan", function(vid, vobj) {
+	config_foreach(uci.network, "switch_vlan", function (vid, vobj) {
 		if (vobj.device === swinfo.device && vobj.ports.indexOf(port) !== -1) {
 			found_vid = vid;
 			return false;
@@ -939,7 +940,7 @@ function getSwitchVid(port, swinfo) {
 
 function countPortUse(port, swinfo) {
 	var count = 0;
-	config_foreach(uci.network, "switch_vlan", function(vid, vobj) {
+	config_foreach(uci.network, "switch_vlan", function (vid, vobj) {
 		if (vobj.device === swinfo.device) {
 			count += (vobj.ports.indexOf(port) !== -1);
 		}
@@ -1039,7 +1040,7 @@ function addPort(port, mode, swinfo) {
 	var bport = getBasePort(port, swinfo);
 
 	var vlans = [];
-	var added = config_foreach(uci.network, "switch_vlan", function(vid, vobj) {
+	var added = config_foreach(uci.network, "switch_vlan", function (vid, vobj) {
 		vlans.push(parseInt(vobj.vlan));
 		if (vobj.device === swinfo.device && vobj.ports.indexOf(bport) !== -1) {
 			var ifname = getInterfaceName(vid, swinfo);
@@ -1052,9 +1053,9 @@ function addPort(port, mode, swinfo) {
 
 	if (!added) {
 		// Get smallest unused vlan number > 0.
-		var vlan = vlans.sort(function(a, b) {
+		var vlan = vlans.sort(function (a, b) {
 			return a - b
-		}).reduce(function(r, v, i) {
+		}).reduce(function (r, v, i) {
 			return (r < vlans.length) ? r : ((i + 1 !== v) ? i + 1 : r);
 		}, vlans.length + 1);
 
@@ -1083,7 +1084,7 @@ function addPort(port, mode, swinfo) {
 }
 
 function getChangeHandler(port, mode, swinfo) {
-	return function(e) {
+	return function (e) {
 		var src = (e.target || e.srcElement);
 		var mode = (src.data || src.value);
 
@@ -1099,7 +1100,7 @@ function rebuild_switches() {
 	removeChilds(root);
 	addHelpText(root, "Konfiguration der Anschl\xfcsse/Ports am Router. Bitte darauf achten, dass der Zugang auf diese Seite normalerweise nur \xfcber auf 'LAN' gestellte Anschl\xfcsse m\xf6glich ist.");
 
-	config_foreach(uci.network, "switch", function(sid, sobj) {
+	config_foreach(uci.network, "switch", function (sid, sobj) {
 		var swinfo = collect_switch_info(sobj.name);
 		var sfs = append_section(root, "Switch '" + swinfo.device + "'");
 
@@ -1171,7 +1172,7 @@ function save_data() {
 				name: name,
 				data: data
 			},
-			function(data) {
+			function (data) {
 				$('msg').innerHTML = data;
 				$('msg').focus();
 				init();
@@ -1190,7 +1191,7 @@ function restore_firmware() {
 
 	send("/cgi-bin/upgrade", {
 		func: 'restore_firmware'
-	}, function(text) {
+	}, function (text) {
 		setText('msg', text);
 	});
 }
@@ -1199,7 +1200,7 @@ function lookup_upgrade() {
 	setText('msg', 'Versuche Updateserver zu erreichen. Bitte warten ...');
 	send("/cgi-bin/upgrade", {
 		func: 'lookup_upgrade'
-	}, function(text) {
+	}, function (text) {
 		setText('msg', text);
 	});
 }
@@ -1212,15 +1213,13 @@ function lookup_and_apply_upgrade() {
 	setText('msg', 'Versuche Updateserver zu erreichen. Bitte warten ...');
 	send("/cgi-bin/upgrade", {
 		func: 'lookup_and_apply_upgrade'
-	}, function(text) {
+	}, function (text) {
 		setText('msg', text);
 	});
 }
 
 /* eof: upgrade-stuff */
 /* bof: wifiscan-stuff */
-
-
 
 function fetch(regex, data) {
 	var result = data.match(regex);
@@ -1249,7 +1248,7 @@ function wifi_scan() {
 	send("/cgi-bin/misc", {
 		func: 'wifiscan',
 		device: device
-	}, function(data) {
+	}, function (data) {
 		var tbody = $("wifiscan_tbody");
 		removeChilds(tbody);
 
@@ -1301,7 +1300,7 @@ function add_list_entry(device, ifname) {
 function init_wifiscan() {
 	send("/cgi-bin/misc", {
 		func: 'wifi_status'
-	}, function(data) {
+	}, function (data) {
 		var data = JSON.parse(data);
 		for (var device in data) {
 			var interfaces = data[device].interfaces;
@@ -1310,14 +1309,13 @@ function init_wifiscan() {
 			}
 			for (var aninterface in interfaces) {
 				var ifname = interfaces[aninterface].ifname;
-				if (typeof(ifname) == 'string') {
+				if (typeof (ifname) == 'string') {
 					add_list_entry(device, ifname);
 				}
 			}
 		}
 	});
 }
-
 
 /* eof: wifiscan-stuff */
 /* bof: general-stuff */
@@ -1334,16 +1332,16 @@ function section_toggle(section_selector) {
 			init_network();
 			break;
 		case 'wifiscan':
-		init_wifiscan();
+			init_wifiscan();
 			break;
-			/*
-					case 'settings':
-						break;
-					case 'upgrade':
-						break;
-					case 'password':
-						break;
-				*/
+		/*
+				case 'settings':
+					break;
+				case 'upgrade':
+					break;
+				case 'password':
+					break;
+			*/
 	}
 }
 
