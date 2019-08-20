@@ -366,23 +366,85 @@ function _selection(type, parent, title, name, selected, choices) {
 }
 
 //from jx_compressed.js
-jx={getHTTPObject:function(){var A=false;if (typeof ActiveXObject!="undefined"){try{A=new ActiveXObject("Msxml2.XMLHTTP")}catch(C){try{A=new ActiveXObject("Microsoft.XMLHTTP")}catch(B){A=false}}}else{if (window.XMLHttpRequest){try{A=new XMLHttpRequest()}catch(C){A=false}}}return A},load:function(url,callback,format){var http=this.init();if (!http||!url){return }if (http.overrideMimeType){http.overrideMimeType("text/xml")}if (!format){var format="text"}format=format.toLowerCase();var now="uid="+new Date().getTime();url+=(url.indexOf("?")+1)?"&":"?";url+=now;http.open("GET",url,true);http.onreadystatechange=function(){if (http.readyState==4){if (http.status==200){var result="";if (http.responseText){result=http.responseText}if (format.charAt(0)=="j"){result=result.replace(/[\n\r]/g,"");result=eval("("+result+")")}if (callback){callback(result)}}else{if (error){error(http.status)}}}};http.send(null)},init:function(){return this.getHTTPObject()}}
+jx = {
+	getHTTPObject: function () {
+		var A = false;
+		if (typeof ActiveXObject != "undefined") {
+			try {
+				A = new ActiveXObject("Msxml2.XMLHTTP")
+			} catch (C) {
+				try {
+					A = new ActiveXObject("Microsoft.XMLHTTP")
+				} catch (B) {
+					A = false
+				}
+			}
+		} else {
+			if (window.XMLHttpRequest) {
+				try {
+					A = new XMLHttpRequest()
+				} catch (C) {
+					A = false
+				}
+			}
+		}
+		return A
+	}, load: function (url, callback, format) {
+		var http = this.init();
+		if (!http || !url) {
+			return
+		}
+		if (http.overrideMimeType) {
+			http.overrideMimeType("text/xml")
+		}
+		if (!format) {
+			var format = "text"
+		}
+		format = format.toLowerCase();
+		var now = "uid=" + new Date().getTime();
+		url += (url.indexOf("?") + 1) ? "&" : "?";
+		url += now;
+		http.open("GET", url, true);
+		http.onreadystatechange = function () {
+			if (http.readyState === 4) {
+				if (http.status === 200) {
+					var result = "";
+					if (http.responseText) {
+						result = http.responseText
+					}
+					if (format.charAt(0) === "j") {
+						result = result.replace(/[\n\r]/g, "");
+						result = eval("(" + result + ")")
+					}
+					if (callback) {
+						callback(result)
+					}
+				} else {
+					if (error) {
+						error(http.status)
+					}
+				}
+			}
+		};
+		http.send(null)
+	}, init: function () {
+		return this.getHTTPObject()
+	}
+}
 
 var html_cache = {};
 var js_cache = {};
 var adv_mode = false;
 
 
-
-function nav_onclick()
-{
+function nav_onclick() {
 	setText('msg', "");
 	var url = this.getAttribute("href");
-	if(url == '#') return false;
+	if (url === '#') return false;
 
 	var id = url.substring(0, url.lastIndexOf('.'));
 
-	var process_html = function(data) {
+	var process_html = function (data) {
 		var b = $("body");
 		removeChilds(b);
 		var pattern = /<body[^>]*>((.|[\n\r])*)<\/body>/im;
@@ -390,8 +452,8 @@ function nav_onclick()
 		html_cache[id] = data;
 	};
 
-	var process_js = function(data) {
-		(window.execScript || function(data) {
+	var process_js = function (data) {
+		(window.execScript || function (data) {
 			window["eval"].call(window, data);
 			window["eval"].call(window, "init();");
 		})(data);
@@ -399,25 +461,35 @@ function nav_onclick()
 	};
 
 	//load html file
-	if(id in html_cache) {
+	if (id in html_cache) {
 		process_html(html_cache[id]);
 	} else {
 		jx.load(url, process_html, 'text');
 	}
 
 	//load javascript file
-	if(id in js_cache) {
+	if (id in js_cache) {
 		process_js(js_cache[id]);
 	} else {
 		jx.load(url.replace(".html", ".js"), process_js, 'text');
 	}
 
-	onDesc($("globalnav"), 'UL', function(n) { hide(n); });
-	onParents(this, 'UL', function(n) { show(n); });
-	onChilds(this.parentNode, 'UL', function(n) { show(n); });
+	onDesc($("globalnav"), 'UL', function (n) {
+		hide(n);
+	});
+	onParents(this, 'UL', function (n) {
+		show(n);
+	});
+	onChilds(this.parentNode, 'UL', function (n) {
+		show(n);
+	});
 
-	onDesc($("globalnav"), 'A', function(n) { removeClass(n, "here"); });
-	onParents(this, 'LI', function(n) { addClass(n.firstChild, "here"); });
+	onDesc($("globalnav"), 'A', function (n) {
+		removeClass(n, "here");
+	});
+	onParents(this, 'LI', function (n) {
+		addClass(n.firstChild, "here");
+	});
 
 	return false;
 }
