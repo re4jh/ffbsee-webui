@@ -62,7 +62,6 @@ function adv_toggle(e) {
 	adv_apply();
 }
 
-
 function split(str) {
 	if (typeof str != 'string') {
 		return [];
@@ -1364,7 +1363,7 @@ var gid = 0;
 function init() {
 	send("/cgi-bin/settings", {
 		func: "get_settings"
-	}, function(data) {
+	}, function (data) {
 		uci = fromUCI(data);
 		rebuild_general();
 		adv_apply();
@@ -1388,7 +1387,7 @@ function updateFrom(src) {
 }
 
 function getChangeModeAction(ifname) {
-	return function(e) {
+	return function (e) {
 		var src = (e.target || e.srcElement);
 		var mode = (src.data || src.value);
 		delNetSection(ifname);
@@ -1525,7 +1524,7 @@ function appendSetting(p, path, value, mode) {
 	}
 
 	b.id = id; //needed for updateFrom
-	b.onchange = function() {
+	b.onchange = function () {
 		updateFrom(b);
 	};
 
@@ -1590,7 +1589,7 @@ function save_data() {
 				name: name,
 				data: data
 			},
-			function(data) {
+			function (data) {
 				$('msg').innerHTML = data;
 				$('msg').focus();
 				init();
