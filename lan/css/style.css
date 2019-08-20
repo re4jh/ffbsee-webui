@@ -110,12 +110,12 @@ fieldset fieldset {
 	width: auto
 }
 
-fieldset>* {
+fieldset > * {
 	margin: .1em 0;
 	clear: both
 }
 
-fieldset div>* {
+fieldset div > * {
 	display: inline-block;
 	vertical-align: middle
 }
@@ -161,7 +161,7 @@ button {
 	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(255, 255, 255, .75)), color-stop(0.5, rgba(255, 255, 255, .33)), color-stop(0.5, transparent), to(transparent))
 }
 
-#body>button {
+#body > button {
 	margin: .5em
 }
 
@@ -234,7 +234,7 @@ label[for="s1"] {
 	margin: 1rem 0px;
 }
 
-@media screen and (max-width:960px) {
+@media screen and (max-width: 960px) {
 	#globalnav li:not(:first-child) {
 		display: none
 	}
@@ -265,13 +265,13 @@ label[for="s1"] {
 	}
 }
 
-@media screen and (max-width:600px) {
-	fieldset div>label {
+@media screen and (max-width: 600px) {
+	fieldset div > label {
 		width: auto;
 		font-style: italic
 	}
 
-	fieldset div>span {
+	fieldset div > span {
 		float: right
 	}
 }
