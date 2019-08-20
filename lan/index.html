@@ -5,19 +5,11 @@
 	<title id="title">Freifunk</title>
 	<meta charset="utf-8" />
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
-	<script src="js/shared.js"></script>
 	<link rel="icon" type="image/svg+xml" href="img/icon.svg" sizes="any">
-	<script src="js/cash.min.js"></script>
-	<script>
-		$(function() {
-			$('section#home').show();
-			$('pre#msg').hide();
-		});
-	</script>
 	<script src="js/scripts.js"></script>
 </head>
 
-<body onload="setTitle();">
+<body onload="setTitle(); initialShow()">
 
 	<noscript>
 		<strong>Zum &auml;ndern der Einstellungen wird JavaScript ben&ouml;tigt.</strong>

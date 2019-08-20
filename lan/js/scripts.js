@@ -1,14 +1,59 @@
+/* New Ones */
+
+function initialShow() {
+	show(document.querySelector('section#home'));
+	hide(document.querySelector('pre#msg'));
+}
+
+function section_toggle(section_selector) {
+
+	allSections = document.querySelectorAll('main section');
+	for (var i = 0; i < allSections.length; i++) {
+		hide(allSections[i]);
+	}
+
+	show(document.querySelector('section#' + section_selector));
+
+	switch (section_selector) {
+		/*
+				case 'home':
+					init_home();
+					break;
+				case 'network':
+					init_network();
+					break;
+				case 'wifiscan':
+					init_wifiscan();
+					break;
+				case 'settings':
+					break;
+				case 'upgrade':
+					break;
+				case 'password':
+					break;
+		*/
+	}
+}
+
 /* imported from shared.js */
 function $(id) {
-	return document.getElementById(id);
+	return document.querySelector(id);
 }
 
 function show(e) {
-	e.style.display = 'block';
+	if (e.style === 'undefined' || e.style.display === 'undefined') {
+		e.setAttribute("style", "display: block;");
+	} else {
+		e.style.display = 'block';
+	}
 }
 
 function hide(e) {
-	e.style.display = 'none';
+	if (e.style === 'undefined' || e.style.display === 'undefined') {
+		e.setAttribute("style", "display: none;");
+	} else {
+		e.style.display = 'none';
+	}
 }
 
 function addClass(e, c) {
