@@ -1,6 +1,4 @@
-
-function fetch(regex, data)
-{
+function fetch(regex, data)	{
 	var result = data.match(regex);
 	return result ? result[1] : "";
 }
@@ -20,12 +18,11 @@ function signalToQuality(signal) {
 	}
 }
 
-function wifi_scan()
-{
+function wifi_scan()	{
 	var s = $('wifiscan_selection');
 	var device = s.options[s.selectedIndex].value;
 
-	send("/cgi-bin/misc", {func:'wifiscan', device:device}, function(data) {
+	send("/cgi-bin/misc", {func: 'wifiscan', device: device}, function (data) {
 		var tbody = $("wifiscan_tbody");
 		removeChilds(tbody);
 
@@ -75,7 +72,7 @@ function add_list_entry(device, ifname) {
 * Create a selection of wireless devices
 */
 function init() {
-	send("/cgi-bin/misc", {func:'wifi_status'}, function(data) {
+	send("/cgi-bin/misc", {func: 'wifi_status'}, function (data) {
 		var data = JSON.parse(data);
 		for (var device in data) {
 			var interfaces = data[device].interfaces;
@@ -84,7 +81,7 @@ function init() {
 			}
 			for (var interface in interfaces) {
 				var ifname = interfaces[interface].ifname;
-				if (typeof(ifname) == 'string') {
+				if (typeof (ifname) == 'string') {
 					add_list_entry(device, ifname);
 				}
 			}

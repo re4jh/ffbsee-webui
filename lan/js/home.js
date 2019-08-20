@@ -1,15 +1,14 @@
-
 function formatSize(bytes) {
 	if (typeof bytes === "undefined" || bytes == "") {
 		return "-";
 	} else if (bytes < 1000) {
 		return bytes + "  B";
-	} else if (bytes < 1000*1000) {
-		return (bytes/ 1000.0).toFixed(0)  + " K";
-	} else if (bytes < 1000*1000*1000) {
-		return (bytes/1000.0/1000.0).toFixed(1)  + " M";
+	} else if (bytes < 1000 * 1000) {
+		return (bytes / 1000.0).toFixed(0) + " K";
+	} else if (bytes < 1000 * 1000 * 1000) {
+		return (bytes / 1000.0 / 1000.0).toFixed(1) + " M";
 	} else {
-		return (bytes/1000.0/1000.0/1000.0).toFixed(2) + " G";
+		return (bytes / 1000.0 / 1000.0 / 1000.0).toFixed(2) + " G";
 	}
 }
 
@@ -19,7 +18,7 @@ function formatSpeed(bytes) {
 }
 
 function init() {
-	send("/cgi-bin/home", { }, function(data) {
+	send("/cgi-bin/home", {}, function (data) {
 		var obj = fromUCI(data).misc.data;
 		for (var key in obj) {
 			var value = obj[key];
@@ -39,8 +38,8 @@ function init() {
 			}
 
 			//for addresses
-			if (typeof(value) == 'object') {
-				value = "<ul><li>"+value.join("</li><li>")+"</li></ul>"
+			if (typeof (value) == 'object') {
+				value = "<ul><li>" + value.join("</li><li>") + "</li></ul>"
 			}
 
 			setText(key, value);
