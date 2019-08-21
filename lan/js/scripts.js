@@ -15,23 +15,25 @@ function section_toggle(section_selector) {
 	show(document.querySelector('section#' + section_selector));
 
 	switch (section_selector) {
-		/*
-				case 'home':
-					init_home();
-					break;
-				case 'network':
-					init_network();
-					break;
-				case 'wifiscan':
-					init_wifiscan();
-					break;
-				case 'settings':
-					break;
-				case 'upgrade':
-					break;
-				case 'password':
-					break;
-		*/
+		case 'home':
+			init_home();
+			break;
+		case 'network':
+			init_network();
+			break;
+		case 'wifiscan':
+			init_wifiscan();
+			break;
+		case 'settings':
+			init_settings();
+			break;
+			/*
+	case 'upgrade':
+			break;
+				*/
+		case 'password':
+			init_password()
+			break;
 	}
 }
 
@@ -660,13 +662,13 @@ function formatSpeed(bytes) {
 	return (fmt == "-") ? "-" : (fmt + "/s");
 }
 
-function init() {
-	send("/cgi-bin/home", {}, function (data) {
+function init_home() {
+	send("/cgi-bin/home", {}, function(data) {
 		var obj = fromUCI(data).misc.data;
 		for (var key in obj) {
 			var value = obj[key];
 
-			if (key == 'stype') {
+			if (key === 'stype') {
 				continue;
 			}
 
@@ -708,10 +710,10 @@ var uci = {};
 var gid = 0;
 
 
-function init() {
+function init_settings() {
 	send("/cgi-bin/settings", {
 		func: "get_settings"
-	}, function (data) {
+	}, function(data) {
 		uci = fromUCI(data);
 		rebuild_general();
 		adv_apply();
@@ -978,10 +980,14 @@ var txpower_choices = [
 	["auto", "auto"]
 ];
 
-function init() {
-	send("/cgi-bin/misc", {func: "wifi_status"}, function (data) {
+function init_network() {
+	send("/cgi-bin/misc", {
+		func: "wifi_status"
+	}, function(data) {
 		wifi_status = JSON.parse(data);
-		send("/cgi-bin/network", {func: "get_settings"}, function (data) {
+		send("/cgi-bin/network", {
+			func: "get_settings"
+		}, function(data) {
 			uci = fromUCI(data);
 			rebuild_other();
 			rebuild_assignment();
@@ -1888,19 +1894,19 @@ function add_list_entry(device, ifname) {
 /*
  * Create a selection of wireless devices
  */
-function init() {
+function init_wifiscan() {
 	send("/cgi-bin/misc", {
 		func: 'wifi_status'
-	}, function (data) {
+	}, function(data) {
 		var data = JSON.parse(data);
 		for (var device in data) {
 			var interfaces = data[device].interfaces;
-			if (interfaces.length == 0) {
+			if (interfaces.length === 0) {
 				continue;
 			}
 			for (var interface in interfaces) {
 				var ifname = interfaces[interface].ifname;
-				if (typeof (ifname) == 'string') {
+				if (typeof(ifname) === 'string') {
 					add_list_entry(device, ifname);
 				}
 			}
@@ -1910,7 +1916,7 @@ function init() {
 
 /* imported from password.js */
 
-function init() {
+function init_password() {
 	$("p1").focus();
 }
 
