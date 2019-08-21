@@ -1004,7 +1004,7 @@ function getChangeModeAction(ifname) {
 	};
 }
 
-function appendSetting(p, path, value, mode) {
+function appendNetworkSetting(p, path, value, mode) {
 	var id = path.join('#');
 	var b;
 	var cfg = path[0]
@@ -1171,14 +1171,14 @@ function rebuild_other() {
 
 	if ('network' in uci) {
 		var n = uci['network'];
-		appendSetting(fs, ['network', 'freifunk', "macaddr"], n['freifunk']["macaddr"]);
+		appendNetworkSetting(fs, ['network', 'freifunk', "macaddr"], n['freifunk']["macaddr"]);
 	}
 
 	if ('freifunk' in uci) {
 		var f = uci.freifunk;
 		var i = firstSectionID(f, "settings");
-		appendSetting(fs, ['wireless', 'freifunk', "macaddr"], n['freifunk']["macaddr"]);
-		appendSetting(fs, ['freifunk', i, "mesh_on_wan"], f[i]["mesh_on_wan"]);
+		appendNetworkSetting(fs, ['wireless', 'freifunk', "macaddr"], n['freifunk']["macaddr"]);
+		appendNetworkSetting(fs, ['freifunk', i, "mesh_on_wan"], f[i]["mesh_on_wan"]);
 	}
 
 	addClass(root, "adv_hide");
@@ -1453,7 +1453,7 @@ function rebuild_wifi() {
 		var info = collect_wifi_info(dev);
 
 		for (let sid in obj)
-			appendSetting(fs, ['wireless', dev, sid], obj[sid]);
+			appendNetworkSetting(fs, ['wireless', dev, sid], obj[sid]);
 
 		var lan_help = "<b>LAN</b>: Aktiviert ein privates, passwortgesch\xfctztes WLAN-Netz mit Zugang zum eigenen Internetanschluss.";
 		var freifunk_help = "<b>Freifunk</b>: Der WLAN-Zugang zum Freifunk-Netz.";
@@ -1478,7 +1478,7 @@ function rebuild_wifi() {
 			var entry = append_section(parent, title, "wireless_" + dev + "_" + mode);
 
 			for (let opt in wobj)
-				appendSetting(entry, ["wireless", wid, opt], wobj[opt], mode);
+				appendNetworkSetting(entry, ["wireless", wid, opt], wobj[opt], mode);
 
 			var state = getWifiInterfaceState(dev, wid);
 			var b = append_label(entry, "Status", state);
