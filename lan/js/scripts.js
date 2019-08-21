@@ -902,7 +902,7 @@ function rebuild_general() {
 	}
 }
 
-function save_data() {
+function save_data_settings() {
 	for (let name in uci) {
 		var obj = uci[name];
 		if (!obj.pchanged)
@@ -1923,7 +1923,7 @@ function checkWifiWan() {
 	return true;
 }
 
-function save_data() {
+function save_data_network() {
 	if (!checkWifiWan()) {
 		alert("WAN \xfcber WLAN funktioniert nur wenn dieser als einziger Anschluss f\xfcr WAN verwendet wird! Bitte korrigieren.");
 		return;
