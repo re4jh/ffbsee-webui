@@ -7,8 +7,8 @@ function initialShow() {
 
 function section_toggle(section_selector) {
 
-	allSections = document.querySelectorAll('main section');
-	for (var i = 0; i < allSections.length; i++) {
+	const allSections = document.querySelectorAll('main section');
+	for (let i = 0; i < allSections.length; i++) {
 		hide(allSections[i]);
 	}
 
@@ -84,14 +84,14 @@ function split(str) {
 
 function uniq(arr) {
 	var obj = {};
-	for (var i in arr) obj[arr[i]] = 0;
+	for (let i in arr) obj[arr[i]] = 0;
 	return Object.keys(obj);
 }
 
 //remove an item from a string list
 function removeItem(str, item) {
 	var array = split(str);
-	for (var i in array) {
+	for (let i in array) {
 		if (array[i] === item) {
 			array.splice(i, 1);
 		}
@@ -101,7 +101,7 @@ function removeItem(str, item) {
 
 function addItem(str, item) {
 	var array = split(str);
-	for (var i in array) {
+	for (let i in array) {
 		if (array[i] === item) {
 			return str;
 		}
@@ -112,7 +112,7 @@ function addItem(str, item) {
 
 function replaceItem(str, old_item, new_item) {
 	var array = split(str);
-	for (var i in array) {
+	for (let i in array) {
 		if (array[i] === old_item) {
 			array[i] = new_item;
 		}
@@ -141,7 +141,7 @@ function addHelpText(elem, text) {
 //to config file syntax
 function toUCI(pkg_obj) {
 	var str = "\n";
-	for (var sid in pkg_obj) {
+	for (let sid in pkg_obj) {
 		if (sid === "pchanged") {
 			continue;
 		}
@@ -149,13 +149,13 @@ function toUCI(pkg_obj) {
 		var options = pkg_obj[sid];
 		var sname = (sid.substring(0, 3) !== "cfg") ? (" '" + sid + "'") : "";
 		str += "config " + options.stype + sname + "\n";
-		for (var oname in options) {
+		for (let oname in options) {
 			if (oname === "stype") {
 				continue;
 			}
 			var value = options[oname];
 			if (typeof value === 'object') {
-				for (var i in value)
+				for (let i in value)
 					str += "	list " + oname + " '" + value[i] + "'\n";
 			} else
 				str += "	option " + oname + " '" + value + "'\n";
@@ -173,7 +173,7 @@ function fromUCI(pkgs_str) {
 	var cfg;
 
 	var lines = pkgs_str.split("\n");
-	for (var i = 0; i < lines.length; ++i) {
+	for (let i = 0; i < lines.length; ++i) {
 		var line = lines[i];
 		var items = split(line);
 
@@ -210,7 +210,7 @@ function fromUCI(pkgs_str) {
 }
 
 function firstSectionID(obj, stype) {
-	for (var id in obj) {
+	for (let id in obj) {
 		if (obj[id].stype === stype) {
 			return id;
 		}
@@ -218,7 +218,7 @@ function firstSectionID(obj, stype) {
 }
 
 function config_foreach(objs, stype, func) {
-	for (var key in objs) {
+	for (let key in objs) {
 		var obj = objs[key];
 		if ((obj["stype"] === stype || stype === "*") && func(key, obj)) {
 			return true;
@@ -228,7 +228,7 @@ function config_foreach(objs, stype, func) {
 }
 
 function config_find(objs, mobj) {
-	for (var key in objs) {
+	for (let key in objs) {
 		var obj = objs[key];
 		var found = true;
 		for (mkey in mobj) {
@@ -245,7 +245,7 @@ function config_find(objs, mobj) {
 
 function params(obj) {
 	var str = "";
-	for (var key in obj) {
+	for (let key in obj) {
 		if (str.length) str += "&";
 		else str += "?";
 		str += encodeURIComponent(key) + "=" + encodeURIComponent(obj[key]);
@@ -259,7 +259,7 @@ function send(url, obj, func) {
 }
 
 function onDesc(e, tag, func) {
-	for (var i = 0; i < e.childNodes.length; ++i) {
+	for (let i = 0; i < e.childNodes.length; ++i) {
 		var c = e.childNodes[i];
 		if (c.tagName === tag && func(c) === false) return;
 		onDesc(c, tag, func);
@@ -267,7 +267,7 @@ function onDesc(e, tag, func) {
 }
 
 function onChilds(e, tag, func) {
-	for (var i = 0; i < e.childNodes.length; ++i) {
+	for (let i = 0; i < e.childNodes.length; ++i) {
 		var c = e.childNodes[i];
 		if (c.tagName === tag && func(c) === false) return;
 	}
@@ -327,7 +327,7 @@ function collect_inputs(p, obj) {
 			obj[p.name] = v;
 		}
 
-	for (var i = 0; i < p.childNodes.length; ++i)
+	for (let i = 0; i < p.childNodes.length; ++i)
 		collect_inputs(p.childNodes[i], obj);
 }
 
@@ -368,7 +368,7 @@ function append_options(parent, name, selected, choices) {
 	var select = append(parent, 'select');
 	select.style.minWidth = "5em";
 	select.name = name;
-	for (var i in choices) {
+	for (let i in choices) {
 		var s = (typeof choices[i] !== 'object');
 		var choice_text = " " + (s ? choices[i] : choices[i][0]);
 		var choice_value = "" + (s ? choices[i] : choices[i][1]);
@@ -427,7 +427,7 @@ function _selection(type, parent, title, name, selected, choices) {
 	p.className = "radio_option";
 	label.innerHTML = title + ":";
 
-	for (var i in choices) {
+	for (let i in choices) {
 		var s = (typeof choices[i] === 'string');
 		var choice_text = "" + (s ? choices[i] : choices[i][0]);
 		var choice_value = "" + (s ? choices[i] : choices[i][1]);
@@ -537,9 +537,9 @@ function adv_apply() {
 	var inputs = document.getElementsByClassName('adv_disable');
 	var elems = document.getElementsByClassName('adv_hide');
 
-	for (var i = 0; i < inputs.length; i++)
+	for (let i = 0; i < inputs.length; i++)
 		inputs[i].disabled = adv_mode ? "" : "disabled";
-	for (var i = 0; i < elems.length; i++)
+	for (let i = 0; i < elems.length; i++)
 		elems[i].style.display = adv_mode ? "block" : "none";
 }
 
@@ -665,7 +665,7 @@ function formatSpeed(bytes) {
 function init_home() {
 	send("/cgi-bin/home", {}, function(data) {
 		var obj = fromUCI(data).misc.data;
-		for (var key in obj) {
+		for (let key in obj) {
 			var value = obj[key];
 
 			if (key === 'stype') {
@@ -723,7 +723,7 @@ function init_settings() {
 function updateFrom(src) {
 	var obj = {};
 	collect_inputs(src, obj);
-	for (var name in obj) {
+	for (let name in obj) {
 		var value = obj[name];
 		var path = name.split('#');
 
@@ -929,7 +929,7 @@ function rebuild_general() {
 }
 
 function save_data() {
-	for (var name in uci) {
+	for (let name in uci) {
 		var obj = uci[name];
 		if (!obj.pchanged)
 			continue;
@@ -1008,7 +1008,7 @@ function init_network() {
 function updateFrom(src) {
 	var obj = {};
 	collect_inputs(src, obj);
-	for (var name in obj) {
+	for (let name in obj) {
 		var value = obj[name];
 		var path = name.split('#');
 
@@ -1249,7 +1249,7 @@ function rebuild_assignment() {
 
 	ifnames = uniq(ifnames);
 	ifnames.sort();
-	for (var i in ifnames) {
+	for (let i in ifnames) {
 		var ifname = ifnames[i];
 		if ((ifname.length === 0) || inArray(ifname, ignore) || ifname[0] === "@") {
 			continue;
@@ -1273,7 +1273,7 @@ function collect_wifi_info(device) {
 }
 
 function modeName(mode) {
-	for (var i in net_options) {
+	for (let i in net_options) {
 		if (net_options[i][1] === mode) {
 			return net_options[i][0];
 		}
@@ -1337,7 +1337,7 @@ function delNetSection(ifname) {
 function randomString(length) {
 	var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
 	var str = '';
-	for (var i = 0; i < length; i++) {
+	for (let i = 0; i < length; i++) {
 		var rnum = Math.floor(Math.random() * chars.length);
 		str += chars.substring(rnum, rnum + 1);
 	}
@@ -1435,7 +1435,7 @@ function getWifiInterfaceState(dev, wid) {
 	}
 
 	var interfaces = obj['interfaces'];
-	for (var i = 0; interfaces && i < interfaces.length; i++) {
+	for (let i = 0; interfaces && i < interfaces.length; i++) {
 		var e = interfaces[i];
 		if (e.section === wid) {
 			return ('ifname' in e) ? "Aktiv" : "Fehler";
@@ -1478,7 +1478,7 @@ function rebuild_wifi() {
 		var fs = append_section(root, "Wireless '" + dev + "'", dev);
 		var info = collect_wifi_info(dev);
 
-		for (var sid in obj)
+		for (let sid in obj)
 			appendSetting(fs, ['wireless', dev, sid], obj[sid]);
 
 		var lan_help = "<b>LAN</b>: Aktiviert ein privates, passwortgesch\xfctztes WLAN-Netz mit Zugang zum eigenen Internetanschluss.";
@@ -1503,7 +1503,7 @@ function rebuild_wifi() {
 			var title = (mode === "none") ? "'" + wobj.network + "'" : modeName(mode);
 			var entry = append_section(parent, title, "wireless_" + dev + "_" + mode);
 
-			for (var opt in wobj)
+			for (let opt in wobj)
 				appendSetting(entry, ["wireless", wid, opt], wobj[opt], mode);
 
 			var state = getWifiInterfaceState(dev, wid);
@@ -1744,7 +1744,7 @@ function countPortUse(port, swinfo) {
 }
 
 function renameInterface(old_ifname, new_ifname) {
-	for (var i in uci.network) {
+	for (let i in uci.network) {
 		var ifname = split(uci.network[i].ifname);
 		var index = ifname.indexOf(old_ifname);
 		if (index !== -1) {
@@ -1766,7 +1766,7 @@ function replaceSwitchPort(fromPort, toPort, swinfo) {
 }
 
 function fixPortTag(swinfo) {
-	for (var i in swinfo.map) {
+	for (let i in swinfo.map) {
 		var v = swinfo.map[i];
 		if (v[0].startsWith("eth")) {
 			var bport = v[1];
@@ -1781,7 +1781,7 @@ function fixPortTag(swinfo) {
 
 function getInterfaceName(vid, swinfo) {
 	var vobj = uci.network[vid];
-	for (var i in swinfo.map) {
+	for (let i in swinfo.map) {
 		var v = swinfo.map[i];
 		if (v[0].startsWith("eth")) {
 			if (vobj.ports.indexOf("" + v[1] + "t") !== -1) {
@@ -1798,7 +1798,7 @@ function getBasePort(port, swinfo) {
 	var bport;
 	var found = false;
 	var map = swinfo.map;
-	for (var i in map) {
+	for (let i in map) {
 		var v = map[i];
 		if (v[0].startsWith("eth")) {
 			bport = v[1];
@@ -1903,7 +1903,7 @@ function rebuild_switches() {
 			var p = append(sfs, 'div');
 			var label = append(p, "label");
 			label.innerHTML = "Keine Port-Konfiguration m\xf6glich.";
-		} else for (var i in swinfo.map) {
+		} else for (let i in swinfo.map) {
 			var name = swinfo.map[i][0];
 			var port = swinfo.map[i][1];
 			if (name.startsWith("eth")) {
@@ -1955,7 +1955,7 @@ function save_data() {
 		return;
 	}
 
-	for (var name in uci) {
+	for (let name in uci) {
 		var obj = uci[name];
 		if (!obj.pchanged)
 			continue;
@@ -2011,7 +2011,7 @@ function wifi_scan() {
 
 		data = data.replace(/BSS /g, "|BSS ");
 		var items = data.split("|").filter(Boolean);
-		for (var i = 0; i < items.length; ++i) {
+		for (let i = 0; i < items.length; ++i) {
 			var item = items[i];
 			var ssid = fetch(/SSID: (.*)\n/, item);
 			var bss = fetch(/BSS (..:..:..:..:..:..).*\n/, item);
@@ -2059,12 +2059,12 @@ function init_wifiscan() {
 		func: 'wifi_status'
 	}, function(data) {
 		var data = JSON.parse(data);
-		for (var device in data) {
+		for (let device in data) {
 			var interfaces = data[device].interfaces;
 			if (interfaces.length === 0) {
 				continue;
 			}
-			for (var interface in interfaces) {
+			for (let interface in interfaces) {
 				var ifname = interfaces[interface].ifname;
 				if (typeof(ifname) === 'string') {
 					add_list_entry(device, ifname);
