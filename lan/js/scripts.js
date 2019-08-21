@@ -67,7 +67,7 @@ function removeClass(e, c) {
 }
 
 function setText(id, txt) {
-	$(id).innerHTML = txt;
+	$('#' + id).innerHTML = txt;
 }
 
 function inArray(item, array) {
