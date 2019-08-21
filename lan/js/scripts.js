@@ -614,8 +614,6 @@ function preselect() {
 		if (n.getAttribute("href") !== '#')
 			n.onclick = nav_onclick;
 	});
-	// Select the first tab.
-	$("first").onclick();
 }
 
 function reboot() {
