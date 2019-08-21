@@ -2,11 +2,11 @@
 
 function initialShow() {
 	show(document.querySelector('section#home'));
-	hide(document.querySelector('pre#msg'));
+	hide(document.querySelector('#msg'));
 }
 
 function section_toggle(section_selector) {
-
+	hide(document.querySelector('pre#msg'));
 	const allSections = document.querySelectorAll('main section');
 	for (let i = 0; i < allSections.length; i++) {
 		hide(allSections[i]);
@@ -68,6 +68,7 @@ function removeClass(e, c) {
 
 function setText(id, txt) {
 	$('#' + id).innerHTML = txt;
+	show($('#' + id));
 }
 
 function inArray(item, array) {
