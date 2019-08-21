@@ -719,22 +719,6 @@ function init_settings() {
 	});
 }
 
-function updateFrom(src) {
-	var obj = {};
-	collect_inputs(src, obj);
-	for (let name in obj) {
-		var value = obj[name];
-		var path = name.split('#');
-
-		var pkg = path[0];
-		var sec = path[1];
-		var opt = path[2];
-
-		uci[pkg].pchanged = true;
-		uci[pkg][sec][opt] = value
-	}
-}
-
 function appendSetting(p, path, value, mode) {
 	var id = path.join('#');
 	var b;
