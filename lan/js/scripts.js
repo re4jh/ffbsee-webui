@@ -28,11 +28,11 @@ function section_toggle(section_selector) {
 			init_settings();
 			break;
 			/*
-	case 'upgrade':
+		case 'upgrade':
 			break;
-				*/
+			*/
 		case 'password':
-			init_password()
+			init_password();
 			break;
 	}
 }
@@ -71,11 +71,11 @@ function setText(id, txt) {
 }
 
 function inArray(item, array) {
-	return array.indexOf(item) != -1;
+	return array.indexOf(item) !== -1;
 }
 
 function split(str) {
-	if (typeof str != 'string') {
+	if (typeof str !== 'string') {
 		return [];
 	}
 	var a = str.match(/[^\s]+/g);
@@ -92,7 +92,7 @@ function uniq(arr) {
 function removeItem(str, item) {
 	var array = split(str);
 	for (var i in array) {
-		if (array[i] == item) {
+		if (array[i] === item) {
 			array.splice(i, 1);
 		}
 	}
@@ -102,7 +102,7 @@ function removeItem(str, item) {
 function addItem(str, item) {
 	var array = split(str);
 	for (var i in array) {
-		if (array[i] == item) {
+		if (array[i] === item) {
 			return str;
 		}
 	}
@@ -113,7 +113,7 @@ function addItem(str, item) {
 function replaceItem(str, old_item, new_item) {
 	var array = split(str);
 	for (var i in array) {
-		if (array[i] == old_item) {
+		if (array[i] === old_item) {
 			array[i] = new_item;
 		}
 	}
@@ -142,19 +142,19 @@ function addHelpText(elem, text) {
 function toUCI(pkg_obj) {
 	var str = "\n";
 	for (var sid in pkg_obj) {
-		if (sid == "pchanged") {
+		if (sid === "pchanged") {
 			continue;
 		}
 
 		var options = pkg_obj[sid];
-		var sname = (sid.substring(0, 3) != "cfg") ? (" '" + sid + "'") : "";
+		var sname = (sid.substring(0, 3) !== "cfg") ? (" '" + sid + "'") : "";
 		str += "config " + options.stype + sname + "\n";
 		for (var oname in options) {
-			if (oname == "stype") {
+			if (oname === "stype") {
 				continue;
 			}
 			var value = options[oname];
-			if (typeof value == 'object') {
+			if (typeof value === 'object') {
 				for (var i in value)
 					str += "	list " + oname + " '" + value[i] + "'\n";
 			} else
@@ -189,7 +189,7 @@ function fromUCI(pkgs_str) {
 				pkg_objs[items[1]] = pkg;
 				break;
 			case 'config':
-				var val = (items.length == 3) ? line.match(/'(.*)'/)[1] : ("cfg" + (++gid));
+				var val = (items.length === 3) ? line.match(/'(.*)'/)[1] : ("cfg" + (++gid));
 				cfg = {
 					stype: items[1]
 				};
@@ -211,7 +211,7 @@ function fromUCI(pkgs_str) {
 
 function firstSectionID(obj, stype) {
 	for (var id in obj) {
-		if (obj[id].stype == stype) {
+		if (obj[id].stype === stype) {
 			return id;
 		}
 	}
@@ -220,7 +220,7 @@ function firstSectionID(obj, stype) {
 function config_foreach(objs, stype, func) {
 	for (var key in objs) {
 		var obj = objs[key];
-		if ((obj["stype"] == stype || stype == "*") && func(key, obj)) {
+		if ((obj["stype"] === stype || stype === "*") && func(key, obj)) {
 			return true;
 		}
 	}
@@ -232,7 +232,7 @@ function config_find(objs, mobj) {
 		var obj = objs[key];
 		var found = true;
 		for (mkey in mobj) {
-			if (obj[mkey] != mobj[mkey]) {
+			if (obj[mkey] !== mobj[mkey]) {
 				found = false;
 				break;
 			}
@@ -261,7 +261,7 @@ function send(url, obj, func) {
 function onDesc(e, tag, func) {
 	for (var i = 0; i < e.childNodes.length; ++i) {
 		var c = e.childNodes[i];
-		if (c.tagName == tag && func(c) == false) return;
+		if (c.tagName === tag && func(c) === false) return;
 		onDesc(c, tag, func);
 	}
 }
@@ -269,14 +269,14 @@ function onDesc(e, tag, func) {
 function onChilds(e, tag, func) {
 	for (var i = 0; i < e.childNodes.length; ++i) {
 		var c = e.childNodes[i];
-		if (c.tagName == tag && func(c) == false) return;
+		if (c.tagName === tag && func(c) === false) return;
 	}
 }
 
 function onParents(e, tag, func) {
-	while (e != document) {
+	while (e !== document) {
 		e = e.parentNode;
-		if (e.tagName == tag && func(e) == false) return;
+		if (e.tagName === tag && func(e) === false) return;
 	}
 }
 
@@ -316,14 +316,14 @@ function addInputCheck(input, regex, msg) {
 }
 
 function collect_inputs(p, obj) {
-	if (p.tagName == "SELECT")
+	if (p.tagName === "SELECT")
 		obj[p.name] = p.value;
-	if (p.tagName == "INPUT")
-		if (p.type == "text" || p.type == "password" || (p.type == "radio" && p.checked))
+	if (p.tagName === "INPUT")
+		if (p.type === "text" || p.type === "password" || (p.type === "radio" && p.checked))
 			obj[p.name] = p.value
-		else if (p.type == "checkbox" && p.checked) {
+		else if (p.type === "checkbox" && p.checked) {
 			var v = obj[p.name];
-			v = (typeof v == "undefined") ? (p.data || p.value) : (v + " " + (p.data || p.value));
+			v = (typeof v === "undefined") ? (p.data || p.value) : (v + " " + (p.data || p.value));
 			obj[p.name] = v;
 		}
 
@@ -369,13 +369,13 @@ function append_options(parent, name, selected, choices) {
 	select.style.minWidth = "5em";
 	select.name = name;
 	for (var i in choices) {
-		var s = (typeof choices[i] != 'object');
+		var s = (typeof choices[i] !== 'object');
 		var choice_text = " " + (s ? choices[i] : choices[i][0]);
 		var choice_value = "" + (s ? choices[i] : choices[i][1]);
 
 		var option = append(select, 'option');
 		option.value = choice_value;
-		option.selected = (choice_value == selected) ? "selected" : "";
+		option.selected = (choice_value === selected) ? "selected" : "";
 		option.innerHTML = choice_text;
 	}
 	return select;
@@ -400,7 +400,7 @@ function append_input(parent, title, name, value) {
 	var input = append(div, 'input');
 
 	label.innerHTML = title + ":";
-	input.value = (typeof value == "undefined") ? "" : value;
+	input.value = (typeof value === "undefined") ? "" : value;
 	input.name = name;
 	input.type = "text";
 
@@ -428,7 +428,7 @@ function _selection(type, parent, title, name, selected, choices) {
 	label.innerHTML = title + ":";
 
 	for (var i in choices) {
-		var s = (typeof choices[i] == 'string');
+		var s = (typeof choices[i] === 'string');
 		var choice_text = "" + (s ? choices[i] : choices[i][0]);
 		var choice_value = "" + (s ? choices[i] : choices[i][1]);
 		var choice_help = s ? undefined : choices[i][2];
@@ -448,7 +448,7 @@ function _selection(type, parent, title, name, selected, choices) {
 
 		label.innerHTML = " " + choice_text;
 
-		if (choice_text == "_") {
+		if (choice_text === "_") {
 			hide(div);
 		}
 
@@ -463,7 +463,7 @@ function _selection(type, parent, title, name, selected, choices) {
 jx = {
 	getHTTPObject: function () {
 		var A = false;
-		if (typeof ActiveXObject != "undefined") {
+		if (typeof ActiveXObject !== "undefined") {
 			try {
 				A = new ActiveXObject("Msxml2.XMLHTTP")
 			} catch (C) {
@@ -500,14 +500,14 @@ jx = {
 		url += (url.indexOf("?") + 1) ? "&" : "?";
 		url += now;
 		http.open("GET", url, true);
-		http.onreadystatechange = function () {
-			if (http.readyState == 4) {
-				if (http.status == 200) {
+		http.onreadystatechange = function() {
+			if (http.readyState === 4) {
+				if (http.status === 200) {
 					var result = "";
 					if (http.responseText) {
 						result = http.responseText
 					}
-					if (format.charAt(0) == "j") {
+					if (format.charAt(0) === "j") {
 						result = result.replace(/[\n\r]/g, "");
 						result = eval("(" + result + ")")
 					}
@@ -552,7 +552,7 @@ function adv_toggle(e) {
 function nav_onclick() {
 	setText('msg', "");
 	var url = this.getAttribute("href");
-	if (url == '#') return false;
+	if (url === '#') return false;
 
 	var id = url.substring(0, url.lastIndexOf('.'));
 
@@ -611,7 +611,7 @@ function preselect() {
 		hide(n);
 	});
 	onDesc($("globalnav"), 'A', function (n) {
-		if (n.getAttribute("href") != '#')
+		if (n.getAttribute("href") !== '#')
 			n.onclick = nav_onclick;
 	});
 	// Select the first tab.
@@ -644,7 +644,7 @@ function logout() {
 /* imported from home.js */
 
 function formatSize(bytes) {
-	if (typeof bytes === "undefined" || bytes == "") {
+	if (typeof bytes === "undefined" || bytes === "") {
 		return "-";
 	} else if (bytes < 1000) {
 		return bytes + "  B";
@@ -659,7 +659,7 @@ function formatSize(bytes) {
 
 function formatSpeed(bytes) {
 	var fmt = formatSize(bytes);
-	return (fmt == "-") ? "-" : (fmt + "/s");
+	return (fmt === "-") ? "-" : (fmt + "/s");
 }
 
 function init_home() {
@@ -683,7 +683,7 @@ function init_home() {
 			}
 
 			//for addresses
-			if (typeof (value) == 'object') {
+			if (typeof(value) === 'object') {
 				value = "<ul><li>" + value.join("</li><li>") + "</li></ul>"
 			}
 
@@ -783,21 +783,21 @@ function appendSetting(p, path, value, mode) {
 			addHelpText(b, "Webseite der Community, zu der dieser Knoten geh\xf6rt.");
 			break;
 		case "enabled":
-			if (cfg == "autoupdater") {
+			if (cfg === "autoupdater") {
 				b = append_radio(p, "Autoupdater", id, value, [
 					["An", "1"],
 					["Aus", "0"]
 				]);
 				addHelpText(b, "Der Auto-Updater aktualisiert die Firmware automatisch auf die neuste Version. Dabei bleibt die Konfiguration, die \xfcber die Weboberfl\xe4che gemacht wurde, erhalten. Spezifische Anpassungen \xfcber SSH k\xf9nnten eventuell \xfcberschrieben werden!");
 			}
-			if (cfg == "simple-tc") {
+			if (cfg === "simple-tc") {
 				b = append_radio(p, "Bandbreitenkontrolle", id, value, [
 					["An", "1"],
 					["Aus", "0"]
 				]);
 				addHelpText(b, "Bandbreitenkontrolle f\xfcr den Upload-/Download \xfcber das Freifunknetz \xfcber den eigenen Internetanschluss.");
 			}
-			if (cfg == "fastd") {
+			if (cfg === "fastd") {
 				b = append_radio(p, "Fastd VPN", id, value, [
 					["An", "1"],
 					["Aus", "0"]
@@ -958,7 +958,14 @@ var uci = {};
 var wifi_status = {};
 
 var gid = 0;
-var net_options = [["LAN", "lan"], ["Freifunk", "freifunk"], ["Mesh", "mesh"], ["WAN", "wan"], ["None", "none"], ["ExtraSSID", "extrassid"]];
+var net_options = [
+	["LAN", "lan"],
+	["Freifunk", "freifunk"],
+	["Mesh", "mesh"],
+	["WAN", "wan"],
+	["None", "none"],
+	["ExtraSSID", "extrassid"]
+];
 var txpower_choices = [
 	["20 dBm (100 mW)", "20"],
 	["19 dBm (79 mW)", "19"],
@@ -1049,13 +1056,20 @@ function appendSetting(p, path, value, mode) {
 		case "mode":
 			if (!inArray(mode, ["wan", "none"]))
 				return;
-			b = append_selection(p, "Modus", id, value, [["Client", "sta"], ["AccessPoint", "ap"]]);
+			b = append_selection(p, "Modus", id, value, [
+				["Client", "sta"],
+				["AccessPoint", "ap"]
+			]);
 			addHelpText(b, "In einem anderen Netz anmelden (Client) oder das Anmelden anderer Ger\xe4te zulassen (AccessPoint).");
 			break;
 		case "encryption":
 			if (!inArray(mode, ["wan", "lan", "none"]))
 				return;
-			b = append_selection(p, "Verschl\xfcsselung", id, value, [["Keine", "none"], ["WPA", "psk"], ["WPA2", "psk2"]]);
+			b = append_selection(p, "Verschl\xfcsselung", id, value, [
+				["Keine", "none"],
+				["WPA", "psk"],
+				["WPA2", "psk2"]
+			]);
 			break;
 		case "key":
 			if (!inArray(mode, ["wan", "lan", "none"]))
@@ -1064,9 +1078,9 @@ function appendSetting(p, path, value, mode) {
 			addInputCheck(b.lastChild, /^[\S]{8,32}$/, "Bitte nur ein Passwort aus mindestens acht sichbaren Zeichen verwenden.");
 			break;
 		case "hwmode":
-			if (value == "11g") {
+			if (value === "11g") {
 				value = "802.11g (2.4 GHz)";
-			} else if (value == "11a") {
+			} else if (value === "11a") {
 				value = "802.11a (5 GHz)";
 			} else {
 				value = "802." + value;
@@ -1080,7 +1094,7 @@ function appendSetting(p, path, value, mode) {
 			addInputCheck(b.lastChild, /^[^\x00-\x1F\x80-\x9F]{3,30}$/, "Mesh ID ist ung\xfcltig.");
 			break;
 		case "ssid":
-			if (value == "Freifunk") {
+			if (value === "Freifunk") {
 				b = append_label(p, "SSID", "Freifunk");
 			} else {
 
@@ -1092,21 +1106,29 @@ function appendSetting(p, path, value, mode) {
 			break;
 		/*
 			case "macaddr":
-				if (path[1] != "freifunk") return;
+				if (path[1] !== "freifunk") return;
 				b = append_input(p, "MAC-Adresse", id, value);
 				addInputCheck(b.lastChild,/^((([0-9a-f]{2}:){5}([0-9a-f]{2}))|)$/, "Ung\xfcltige MAC-Adresse.");
 				addHelpText(b, "Die MAC-Adresse identifiziert den Knoten. Bei einem leeren Wert w\xe4hlt der Router selber einen aus.");
 				break;
 		*/
 		case "mesh_on_wan":
-			b = append_radio(p, "Mesh-On-WAN", id, value, [["Ja", "1"], ["Nein", "0"]]);
+			b = append_radio(p, "Mesh-On-WAN", id, value, [
+				["Ja", "1"],
+				["Nein", "0"]
+			]);
 			onDesc(b, "INPUT", function (e) {
 				e.onclick = function (e) {
 					var src = (e.target || e.srcElement);
 					var val = (src.data || src.value);
-					if (val != value) {
-						if (val == "1") {
-							uci.network['wan_mesh'] = {stype: 'interface', ifname: '@wan', proto: 'batadv_hardif', master: 'bat0'};
+					if (val !== value) {
+						if (val === "1") {
+							uci.network['wan_mesh'] = {
+								stype: 'interface',
+								ifname: '@wan',
+								proto: 'batadv_hardif',
+								master: 'bat0'
+							};
 						} else {
 							delete uci.network['wan_mesh'];
 						}
@@ -1117,7 +1139,10 @@ function appendSetting(p, path, value, mode) {
 			addHelpText(b, "Diese Funktion schickt die Mesh-Pakete auf das Netz am WAN-Anschluss. Bitte beachten, dass diese Broadcast-Pakete im WAN-Netz befindliche WLAN APs negativ beeinflusst.");
 			break;
 		case "disabled":
-			b = append_radio(p, "Deaktiviert", id, value, [["Ja", "1"], ["Nein", "0"]]);
+			b = append_radio(p, "Deaktiviert", id, value, [
+				["Ja", "1"],
+				["Nein", "0"]
+			]);
 			break;
 		default:
 			return;
@@ -1143,7 +1168,10 @@ function getInterfaceMode(ifname) {
 	if (inArray(ifname, split(n.wan.ifname)))
 		return "wan";
 
-	if (config_find(n, {'ifname': ifname, 'proto': 'batadv_hardif'}))
+	if (config_find(n, {
+		'ifname': ifname,
+		'proto': 'batadv_hardif'
+	}))
 		return "mesh";
 
 	return "none";
@@ -1152,10 +1180,10 @@ function getInterfaceMode(ifname) {
 function getWifiMode(id) {
 	var obj = uci.wireless[id];
 
-	if (obj.network == "freifunk") return "freifunk";
-	if (obj.network == "lan") return "lan";
-	if (obj.network == "wan") return "wan";
-	if (obj.mode == "mesh") return "mesh";
+	if (obj.network === "freifunk") return "freifunk";
+	if (obj.network === "lan") return "lan";
+	if (obj.network === "wan") return "wan";
+	if (obj.mode === "mesh") return "mesh";
 
 	return "none";
 }
@@ -1202,20 +1230,20 @@ function rebuild_assignment() {
 	}
 
 	// Collect all interfaces.
-	config_foreach(uci.network, "interface", function (sid, sobj) {
+	config_foreach(uci.network, "interface", function(sid, sobj) {
 		if (sobj.ifname) ifnames = ifnames.concat(split(sobj.ifname));
 	});
 
 	// Ignore switch interfaces.
-	config_foreach(uci.network, "switch", function (sid, sobj) {
+	config_foreach(uci.network, "switch", function(sid, sobj) {
 		var swinfo = collect_switch_info(sobj.name);
-		config_foreach(uci.network, "switch_vlan", function (vid, vobj) {
+		config_foreach(uci.network, "switch_vlan", function(vid, vobj) {
 			ignore.push(getInterfaceName(vid, swinfo));
 		});
 	});
 
 	// Ignore wlan interfaces.
-	config_foreach(uci.wireless, "wifi-iface", function (sid, sobj) {
+	config_foreach(uci.wireless, "wifi-iface", function(sid, sobj) {
 		if (sobj.ifname) ignore.push(sobj.ifname);
 	});
 
@@ -1223,7 +1251,7 @@ function rebuild_assignment() {
 	ifnames.sort();
 	for (var i in ifnames) {
 		var ifname = ifnames[i];
-		if ((ifname.length == 0) || inArray(ifname, ignore) || ifname[0] == "@") {
+		if ((ifname.length === 0) || inArray(ifname, ignore) || ifname[0] === "@") {
 			continue;
 		}
 		var mode = getInterfaceMode(ifname);
@@ -1236,15 +1264,17 @@ function rebuild_assignment() {
 function collect_wifi_info(device) {
 	var modes = [];
 	config_foreach(uci.wireless, "wifi-iface", function (id, obj) {
-		if (device == obj.device)
+		if (device === obj.device)
 			modes.push(getWifiMode(id));
 	});
-	return {"modes": modes};
+	return {
+		"modes": modes
+	};
 }
 
 function modeName(mode) {
 	for (var i in net_options) {
-		if (net_options[i][1] == mode) {
+		if (net_options[i][1] === mode) {
 			return net_options[i][0];
 		}
 	}
@@ -1266,11 +1296,21 @@ function addNetSection(ifname, mode) {
 			break;
 		case "mesh":
 			var net = ifname.replace(".", "_");
-			n[net] = {stype: 'interface', ifname: ifname, mtu: '1406', proto: 'batadv_hardif', master: 'bat0'};
+			n[net] = {
+				stype: 'interface',
+				ifname: ifname,
+				mtu: '1406',
+				proto: 'batadv_hardif',
+				master: 'bat0'
+			};
 			break;
 		case "none":
 			var net = ifname.replace(".", "_");
-			n[net] = {"stype": "interface", "ifname": ifname, "proto": "none"};
+			n[net] = {
+				"stype": "interface",
+				"ifname": ifname,
+				"proto": "none"
+			};
 			break;
 		default:
 			return;
@@ -1283,7 +1323,7 @@ function delNetSection(ifname) {
 	var n = uci.network;
 
 	config_foreach(n, "interface", function (id, obj) {
-		if (obj.ifname == ifname && !inArray(id, ['wan', 'lan', 'freifunk']))
+		if (obj.ifname === ifname && !inArray(id, ['wan', 'lan', 'freifunk']))
 			delete n[id];
 	});
 
@@ -1307,7 +1347,9 @@ function randomString(length) {
 function addWifiSection(device, mode) {
 	var w = uci.wireless;
 	var n = uci.network;
-	var s = config_find(uci.freifunk, {"stype": "settings"});
+	var s = config_find(uci.freifunk, {
+		"stype": "settings"
+	});
 	var ifname = device + "_" + mode;
 
 	// Add section to /etc/config/wireless
@@ -1373,9 +1415,9 @@ function delWifiSection(dev, mode) {
 	var w = uci.wireless;
 	var n = uci.network;
 
-	config_foreach(w, "wifi-iface", function (id, obj) {
-		if (obj.device == dev && getWifiMode(id) == mode) {
-			if (mode == "mesh") {
+	config_foreach(w, "wifi-iface", function(id, obj) {
+		if (obj.device === dev && getWifiMode(id) === mode) {
+			if (mode === "mesh") {
 				delete n[obj.network];
 				n.pchanged = true;
 			}
@@ -1395,7 +1437,7 @@ function getWifiInterfaceState(dev, wid) {
 	var interfaces = obj['interfaces'];
 	for (var i = 0; interfaces && i < interfaces.length; i++) {
 		var e = interfaces[i];
-		if (e.section == wid) {
+		if (e.section === wid) {
 			return ('ifname' in e) ? "Aktiv" : "Fehler";
 		}
 	}
@@ -1404,11 +1446,11 @@ function getWifiInterfaceState(dev, wid) {
 
 function countWifi(mode, wmode) {
 	var n = 0;
-	config_foreach(uci.wireless, "wifi-iface", function (wid, wobj) {
-		if (wmode && wobj['mode'] != wmode) {
+	config_foreach(uci.wireless, "wifi-iface", function(wid, wobj) {
+		if (wmode && wobj['mode'] !== wmode) {
 			return;
 		}
-		if (getWifiMode(wid) == mode) n++;
+		if (getWifiMode(wid) === mode) n++;
 	});
 	return n;
 }
@@ -1420,8 +1462,8 @@ function countOther(mode) {
 // Make sure we use only one interface for WAN
 // when using WAN of Wifi. Otherwise it won't work.
 function setWanMode(mode) {
-	var changed = (uci['network']['wan']['mode'] == mode);
-	if (mode == 'static' || mode == 'bridge') {
+	var changed = (uci['network']['wan']['mode'] === mode);
+	if (mode === 'static' || mode === 'bridge') {
 		uci['network']['wan']['mode'] = mode;
 		uci['network'].pchanged = changed;
 	}
@@ -1444,15 +1486,21 @@ function rebuild_wifi() {
 		var mesh_help = "<b>Mesh</b>: Das WLAN-Netz \xfcber das die Router untereinander kommunizieren.";
 		var wan_help = "<b>WAN</b>: Erm\xf6glicht den Internetzugang eines anderen, herk\xf6mmlichen Routers zu nutzen (nutzt WDS).";
 		var extrassid_help = "<b>ExtraSSID</b>: Diese Option bietet eine weitere SSID, die ebenfalls das Freifunknetz ausstrahlt. Es kann sein, dass nicht jeder sieht ob dieser Knopf geklickt wurde. Zum Deaktivieren der zweiten SSID das Freifunk WLAN komplett deaktivieren und dann nur Freifunk (ohne extra SSID) wieder aktivieren";
-		var mode_checks = append_check(fs, "Modus", dev + "_mode", info.modes, [["LAN", "lan", lan_help], ["Freifunk", "freifunk", freifunk_help], ["Mesh", "mesh", mesh_help], ["WAN", "wan", wan_help], ["ExtraSSID", "extrassid", extrassid_help]]);
+		var mode_checks = append_check(fs, "Modus", dev + "_mode", info.modes, [
+			["LAN", "lan", lan_help],
+			["Freifunk", "freifunk", freifunk_help],
+			["Mesh", "mesh", mesh_help],
+			["WAN", "wan", wan_help],
+			["ExtraSSID", "extrassid", extrassid_help]
+		]);
 		var parent = append(fs, "div");
 
 		// Print wireless interfaces.
 		config_foreach(uci.wireless, "wifi-iface", function (wid, wobj) {
-			if (wobj.device != dev) return;
+			if (wobj.device !== dev) return;
 
 			var mode = getWifiMode(wid);
-			var title = (mode == "none") ? "'" + wobj.network + "'" : modeName(mode);
+			var title = (mode === "none") ? "'" + wobj.network + "'" : modeName(mode);
 			var entry = append_section(parent, title, "wireless_" + dev + "_" + mode);
 
 			for (var opt in wobj)
@@ -1462,8 +1510,8 @@ function rebuild_wifi() {
 			var b = append_label(entry, "Status", state);
 			addHelpText(b, "Funktioniert das Interface? Manche WLAN-Treiber k\xf6nnen z.B kein AccessPoint und Mesh gleichzeitig.");
 
-			if (mode == "none") {
-				append_button(entry, "L\xf6schen", function () {
+			if (mode === "none") {
+				append_button(entry, "L\xf6schen", function() {
 					delWifiSection(dev, mode);
 					rebuild_wifi();
 					adv_apply();
@@ -1472,13 +1520,13 @@ function rebuild_wifi() {
 		});
 
 		// Add or remove a wifi interface.
-		onDesc(mode_checks, "INPUT", function (e) {
-			e.onclick = function (e) {
+		onDesc(mode_checks, "INPUT", function(e) {
+			e.onclick = function(e) {
 				var src = (e.target || e.srcElement);
 				var mode = (src.data || src.value);
 
 				if (src.checked) {
-					if (obj.type != "mac80211")
+					if (obj.type !== "mac80211")
 						alert("Diese Betriebsweise wird von diesem Chipsatz nicht unterst\xfctzt!");
 					addWifiSection(dev, mode);
 				} else {
@@ -1501,50 +1549,127 @@ function collect_switch_info(device) {
 	switch (uci.misc.data.model) {
 		case 'tp-link-tl-wdr3600-v1':
 		case 'tp-link-tl-wdr4300-v1':
-			obj.map = [['eth0', 0], ['WAN', 1], ['LAN1', 2], ['LAN2', 3], ['LAN3', 4], ['LAN4', 5]];
+			obj.map = [
+				['eth0', 0],
+				['WAN', 1],
+				['LAN1', 2],
+				['LAN2', 3],
+				['LAN3', 4],
+				['LAN4', 5]
+			];
 			break;
 		case 'tp-link-tl-wr1043n-nd-v1':
-			obj.map = [['eth0', 5], ['WAN', 0], ['LAN1', 1], ['LAN2', 2], ['LAN3', 3], ['LAN4', 4]];
+			obj.map = [
+				['eth0', 5],
+				['WAN', 0],
+				['LAN1', 1],
+				['LAN2', 2],
+				['LAN3', 3],
+				['LAN4', 4]
+			];
 			break;
 		case 'tp-link-tl-wr1043n-nd-v2':
 		case 'tp-link-tl-wr1043n-nd-v3':
-			obj.map = [['eth1', 0], ['WAN', 5], ['LAN1', 4], ['LAN2', 3], ['LAN3', 2], ['LAN4', 1]];
+			obj.map = [
+				['eth1', 0],
+				['WAN', 5],
+				['LAN1', 4],
+				['LAN2', 3],
+				['LAN3', 2],
+				['LAN4', 1]
+			];
 			break;
 		case 'tp-link-tl-wr1043n-nd-v4':
-			obj.map = [['eth0', 0], ['WAN', 5], ['LAN1', 4], ['LAN2', 3], ['LAN3', 2], ['LAN4', 1]];
+			obj.map = [
+				['eth0', 0],
+				['WAN', 5],
+				['LAN1', 4],
+				['LAN2', 3],
+				['LAN3', 2],
+				['LAN4', 1]
+			];
 			break;
 		case 'tp-link-tl-wr1043n-v5':
-			obj.map = [['eth1', 0], ['WAN', 5], ['LAN1', 4], ['LAN2', 3], ['LAN3', 2], ['LAN4', 1]];
+			obj.map = [
+				['eth1', 0],
+				['WAN', 5],
+				['LAN1', 4],
+				['LAN2', 3],
+				['LAN3', 2],
+				['LAN4', 1]
+			];
 			break;
 		case 'tp-link-tl-wdr3500-v1':
 		case 'tp-link-tl-wr741n-nd-v4':
 		case 'tp-link-tl-wr841n-nd-v3':
 		case 'tp-link-tl-wr841n-nd-v5':
-			obj.map = [['eth0', 0], ['LAN1', 2], ['LAN2', 3], ['LAN3', 4], ['LAN4', 1]];
+			obj.map = [
+				['eth0', 0],
+				['LAN1', 2],
+				['LAN2', 3],
+				['LAN3', 4],
+				['LAN4', 1]
+			];
 			break;
 		case 'tp-link-tl-wr841n-nd-v8':
 		case 'tp-link-tl-mr3420-v2':
-			obj.map = [['eth1', 0], ['LAN1', 2], ['LAN2', 3], ['LAN3', 4], ['LAN4', 1]];
+			obj.map = [
+				['eth1', 0],
+				['LAN1', 2],
+				['LAN2', 3],
+				['LAN3', 4],
+				['LAN4', 1]
+			];
 			break;
 		case 'tp-link-tl-wr941n-nd-v5':
 		case 'tp-link-tl-wr941n-nd-v6':
-			obj.map = [['eth1', 0], ['LAN1', 4], ['LAN2', 3], ['LAN3', 2], ['LAN4', 1]];
+			obj.map = [
+				['eth1', 0],
+				['LAN1', 4],
+				['LAN2', 3],
+				['LAN3', 2],
+				['LAN4', 1]
+			];
 			break;
 		case 'tp-link-tl-wr841n-nd-v9':
 		case 'tp-link-tl-wr841n-nd-v10':
 		case 'tp-link-tl-wr841n-nd-v11':
-			obj.map = [['eth0', 0], ['LAN1', 4], ['LAN2', 3], ['LAN3', 2], ['LAN4', 1]];
+			obj.map = [
+				['eth0', 0],
+				['LAN1', 4],
+				['LAN2', 3],
+				['LAN3', 2],
+				['LAN4', 1]
+			];
 			break;
 		case 'tp-link-tl-wr842n-nd-v1':
 		case 'tp-link-tl-wr842n-nd-v2':
-			obj.map = [['eth1', 0], ['LAN1', 2], ['LAN2', 3], ['LAN3', 4], ['LAN4', 1]];
+			obj.map = [
+				['eth1', 0],
+				['LAN1', 2],
+				['LAN2', 3],
+				['LAN3', 4],
+				['LAN4', 1]
+			];
 			break;
 		case 'tp-link-tl-wr842n-nd-v3':
-			obj.map = [['eth0', 0], ['LAN1', 4], ['LAN2', 3], ['LAN3', 2], ['LAN4', 1]];
+			obj.map = [
+				['eth0', 0],
+				['LAN1', 4],
+				['LAN2', 3],
+				['LAN3', 2],
+				['LAN4', 1]
+			];
 			break;
 		case 'tp-link-tl-wr841n-nd-v7':
 		case 'tp-link-tl-mr3420-v1':
-			obj.map = [['eth0', 0], ['LAN1', 1], ['LAN2', 2], ['LAN3', 3], ['LAN4', 4]];
+			obj.map = [
+				['eth0', 0],
+				['LAN1', 1],
+				['LAN2', 2],
+				['LAN3', 3],
+				['LAN4', 4]
+			];
 			break;
 		case 'tp-link-cpe210-v1-0':
 		case 'tp-link-cpe210-v1-1':
@@ -1552,19 +1677,45 @@ function collect_switch_info(device) {
 		case 'tp-link-cpe510-v1-0':
 		case 'tp-link-cpe510-v1-1':
 		case 'tp-link-cpe520-v1-0':
-			obj.map = [['eth0', 0], ['LAN0', 5], ['LAN1', 4]];
+			obj.map = [
+				['eth0', 0],
+				['LAN0', 5],
+				['LAN1', 4]
+			];
 			break;
 		case 'tp-link-archer-c5-v1':
 		case 'tp-link-archer-c7-v2':
-			obj.map = [['eth1', 0], ['LAN1', 2], ['LAN2', 3], ['LAN3', 4], ['LAN4', 5], ['eth0', 6], ['WAN', 1]];
+			obj.map = [
+				['eth1', 0],
+				['LAN1', 2],
+				['LAN2', 3],
+				['LAN3', 4],
+				['LAN4', 5],
+				['eth0', 6],
+				['WAN', 1]
+			];
 			break;
 		case 'd-link-dir-615-d':
 		case 'd-link-dir-615-h1':
 		case 'd-link-dir-615-h2':
-			obj.map = [['eth0', 6], ['LAN1', 3], ['LAN2', 2], ['LAN3', 1], ['LAN4', 0], ['Internet', 4]];
+			obj.map = [
+				['eth0', 6],
+				['LAN1', 3],
+				['LAN2', 2],
+				['LAN3', 1],
+				['LAN4', 0],
+				['Internet', 4]
+			];
 			break;
 		case 'd-link-dir-860l-b1':
-			obj.map = [['eth0', 6], ['LAN1', 1], ['LAN2', 2], ['LAN3', 3], ['LAN4', 4], ['WAN', 0]];
+			obj.map = [
+				['eth0', 6],
+				['LAN1', 1],
+				['LAN2', 2],
+				['LAN3', 3],
+				['LAN4', 4],
+				['WAN', 0]
+			];
 			break;
 	}
 
@@ -1574,7 +1725,7 @@ function collect_switch_info(device) {
 function getSwitchVid(port, swinfo) {
 	var found_vid;
 	config_foreach(uci.network, "switch_vlan", function (vid, vobj) {
-		if (vobj.device == swinfo.device && vobj.ports.indexOf(port) != -1) {
+		if (vobj.device === swinfo.device && vobj.ports.indexOf(port) !== -1) {
 			found_vid = vid;
 			return false;
 		}
@@ -1585,8 +1736,8 @@ function getSwitchVid(port, swinfo) {
 function countPortUse(port, swinfo) {
 	var count = 0;
 	config_foreach(uci.network, "switch_vlan", function (vid, vobj) {
-		if (vobj.device == swinfo.device) {
-			count += (vobj.ports.indexOf(port) != -1);
+		if (vobj.device === swinfo.device) {
+			count += (vobj.ports.indexOf(port) !== -1);
 		}
 	});
 	return count;
@@ -1633,9 +1784,9 @@ function getInterfaceName(vid, swinfo) {
 	for (var i in swinfo.map) {
 		var v = swinfo.map[i];
 		if (v[0].startsWith("eth")) {
-			if (vobj.ports.indexOf("" + v[1] + "t") != -1) {
+			if (vobj.ports.indexOf("" + v[1] + "t") !== -1) {
 				return v[0] + "." + vobj.vlan;
-			} else if (vobj.ports.indexOf(v[1]) != -1) {
+			} else if (vobj.ports.indexOf(v[1]) !== -1) {
 				return v[0];
 			}
 		}
@@ -1652,7 +1803,7 @@ function getBasePort(port, swinfo) {
 		if (v[0].startsWith("eth")) {
 			bport = v[1];
 		}
-		if (v[1] == port) {
+		if (v[1] === port) {
 			return bport;
 		}
 	}
@@ -1686,9 +1837,9 @@ function addPort(port, mode, swinfo) {
 	var vlans = [];
 	var added = config_foreach(uci.network, "switch_vlan", function (vid, vobj) {
 		vlans.push(parseInt(vobj.vlan));
-		if (vobj.device == swinfo.device && vobj.ports.indexOf(bport) != -1) {
+		if (vobj.device === swinfo.device && vobj.ports.indexOf(bport) !== -1) {
 			var ifname = getInterfaceName(vid, swinfo);
-			if (getInterfaceMode(ifname) == mode) {
+			if (getInterfaceMode(ifname) === mode) {
 				vobj.ports = addItem(vobj.ports, port);
 				return true;
 			}
@@ -1700,7 +1851,7 @@ function addPort(port, mode, swinfo) {
 		var vlan = vlans.sort(function (a, b) {
 			return a - b
 		}).reduce(function (r, v, i) {
-			return (r < vlans.length) ? r : ((i + 1 != v) ? i + 1 : r);
+			return (r < vlans.length) ? r : ((i + 1 !== v) ? i + 1 : r);
 		}, vlans.length + 1);
 
 		var ports = "" + bport;
@@ -1713,7 +1864,12 @@ function addPort(port, mode, swinfo) {
 		}
 
 		var vid = "cfg" + (++gid);
-		uci.network[vid] = {"stype": "switch_vlan", "device": swinfo.device, "vlan": "" + vlan, "ports": ports};
+		uci.network[vid] = {
+			"stype": "switch_vlan",
+			"device": swinfo.device,
+			"vlan": "" + vlan,
+			"ports": ports
+		};
 
 		var ifname = getInterfaceName(vid, swinfo);
 		addNetSection(ifname, mode);
@@ -1785,7 +1941,7 @@ function checkWifiWan() {
 		new_mode = 'static';
 	}
 
-	if (pre_mode != new_mode) {
+	if (pre_mode !== new_mode) {
 		uci.network.wan.type = new_mode;
 		uci.network.pchanged = true;
 	}
@@ -1805,8 +1961,12 @@ function save_data() {
 			continue;
 
 		var data = toUCI(obj);
-		send("/cgi-bin/misc", {func: "set_config_file", name: name, data: data},
-			function (data) {
+		send("/cgi-bin/misc", {
+				func: "set_config_file",
+				name: name,
+				data: data
+			},
+			function(data) {
 				$('msg').innerHTML = data;
 				$('msg').focus();
 				init();
@@ -1929,24 +2089,31 @@ function apply() {
 	$('p2').value = "";
 	$('s1').value = "";
 
-	if (p1 != p2) {
+	if (p1 !== p2) {
 		setText('msg', "(E) Die Passw&ouml;rter sind nicht identisch.");
 		return;
 	} else {
-		if (p1 == "") {
+		if (p1 === "") {
 			setText('msg', "Keine Passwort&auml;nderung.");
 		} else {
 			setText('msg', "(I) Das Passwort wird ge&auml;ndert. Bitte die Seite neu laden.");
-			send("/cgi-bin/password", {func: "set_password", pass1: p1, pass2: p2}, function (data) {
+			send("/cgi-bin/password", {
+				func: "set_password",
+				pass1: p1,
+				pass2: p2
+			}, function(data) {
 				setText('msg', data);
 			});
 		}
 	}
 
-	if (s1 == "") {
+	if (s1 === "") {
 		setText('msg', "");
 	} else {
-		send("/cgi-bin/sshpubkey", {func: "set_sshpubkey", sshpubkey: s1}, function (data) {
+		send("/cgi-bin/sshpubkey", {
+			func: "set_sshpubkey",
+			sshpubkey: s1
+		}, function(data) {
 			setText('msg', data);
 		});
 	}
