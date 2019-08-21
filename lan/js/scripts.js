@@ -121,7 +121,7 @@ function replaceItem(str, old_item, new_item) {
 }
 
 function addHelpText(elem, text) {
-	var help = $("help");
+	var help = $("#help");
 
 	if (help) {
 		elem.onmouseover = function (e) {
@@ -586,7 +586,7 @@ function nav_onclick() {
 		jx.load(url.replace(".html", ".js"), process_js, 'text');
 	}
 
-	onDesc($("globalnav"), 'UL', function (n) {
+	onDesc($("#globalnav"), 'UL', function (n) {
 		hide(n);
 	});
 	onParents(this, 'UL', function (n) {
@@ -596,7 +596,7 @@ function nav_onclick() {
 		show(n);
 	});
 
-	onDesc($("globalnav"), 'A', function (n) {
+	onDesc($("#globalnav"), 'A', function (n) {
 		removeClass(n, "here");
 	});
 	onParents(this, 'LI', function (n) {
@@ -607,10 +607,10 @@ function nav_onclick() {
 }
 
 function preselect() {
-	onDesc($("globalnav"), 'UL', function (n) {
+	onDesc($("#globalnav"), 'UL', function (n) {
 		hide(n);
 	});
-	onDesc($("globalnav"), 'A', function (n) {
+	onDesc($("#globalnav"), 'A', function (n) {
 		if (n.getAttribute("href") !== '#')
 			n.onclick = nav_onclick;
 	});
@@ -691,14 +691,14 @@ function init_home() {
 		}
 	});
 
-	addHelpText($("system"), "Eine \xdcbersicht \xfcber den Router.");
-	addHelpText($("freifunk"), "Das \xf6ffentliche Freifunknetz..");
-	addHelpText($("lan"), "Das private Netz bzw. LAN.");
-	addHelpText($("wan"), "Das Netz \xfcber dass das Internet erreicht wird.");
-	addHelpText($("software"), "Einige installierte Softwareversionen.");
-	addHelpText($("freifunk_user_count"), "Die Anzahl der Nutzer an diesem Router in den letzten zwei Stunden.");
-	addHelpText($("lan_user_count"), "Die Anzahl der Nutzer an diesem Router in den letzten zwei Stunden.");
-	addHelpText($("vpn_server"), "Der VPN-Server im Internet, mit dem der Knoten verbunden ist.");
+	addHelpText($("#system"), "Eine \xdcbersicht \xfcber den Router.");
+	addHelpText($("#freifunk"), "Das \xf6ffentliche Freifunknetz..");
+	addHelpText($("#lan"), "Das private Netz bzw. LAN.");
+	addHelpText($("#wan"), "Das Netz \xfcber dass das Internet erreicht wird.");
+	addHelpText($("#software"), "Einige installierte Softwareversionen.");
+	addHelpText($("#freifunk_user_count"), "Die Anzahl der Nutzer an diesem Router in den letzten zwei Stunden.");
+	addHelpText($("#lan_user_count"), "Die Anzahl der Nutzer an diesem Router in den letzten zwei Stunden.");
+	addHelpText($("#vpn_server"), "Der VPN-Server im Internet, mit dem der Knoten verbunden ist.");
 }
 
 /* imported from settings.js */
@@ -882,9 +882,9 @@ function appendSetting(p, path, value, mode) {
 }
 
 function rebuild_general() {
-	var gfs = $("general");
-	var rfs = $("resource");
-	var tfs = $("traffic");
+	var gfs = $("#general");
+	var rfs = $("#resource");
+	var tfs = $("#traffic");
 
 	removeChilds(gfs);
 	removeChilds(rfs);
@@ -1189,7 +1189,7 @@ function getWifiMode(id) {
 }
 
 function rebuild_other() {
-	var root = $("other");
+	var root = $("#other");
 	removeChilds(root);
 	hide(root);
 
@@ -1211,7 +1211,7 @@ function rebuild_other() {
 }
 
 function rebuild_assignment() {
-	var root = $("assignment");
+	var root = $("#assignment");
 	removeChilds(root);
 	hide(root);
 
@@ -1470,7 +1470,7 @@ function setWanMode(mode) {
 }
 
 function rebuild_wifi() {
-	var root = $("wireless");
+	var root = $("#wireless");
 	removeChilds(root);
 
 	// Print wireless sections.
@@ -1891,7 +1891,7 @@ function getChangeHandler(port, mode, swinfo) {
 }
 
 function rebuild_switches() {
-	var root = $("switches");
+	var root = $("#switches");
 	removeChilds(root);
 	addHelpText(root, "Konfiguration der Anschl\xfcsse/Ports am Router. Bitte darauf achten, dass der Zugang auf diese Seite normalerweise nur \xfcber auf 'LAN' gestellte Anschl\xfcsse m\xf6glich ist.");
 
@@ -2006,7 +2006,7 @@ function wifi_scan() {
 		func: 'wifiscan',
 		device: device
 	}, function (data) {
-		var tbody = $("wifiscan_tbody");
+		var tbody = $("#wifiscan_tbody");
 		removeChilds(tbody);
 
 		data = data.replace(/BSS /g, "|BSS ");
@@ -2077,17 +2077,17 @@ function init_wifiscan() {
 /* imported from password.js */
 
 function init_password() {
-	$("p1").focus();
+	$("#p1").focus();
 }
 
 function apply() {
-	p1 = $('p1').value;
-	p2 = $('p2').value;
-	s1 = $('s1').value;
+	p1 = $('#p1').value;
+	p2 = $('#p2').value;
+	s1 = $('#s1').value;
 
-	$('p1').value = "";
-	$('p2').value = "";
-	$('s1').value = "";
+	$('#p1').value = "";
+	$('#p2').value = "";
+	$('#s1').value = "";
 
 	if (p1 !== p2) {
 		setText('msg', "(E) Die Passw&ouml;rter sind nicht identisch.");
