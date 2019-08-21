@@ -735,15 +735,6 @@ function updateFrom(src) {
 	}
 }
 
-function getChangeModeAction(ifname) {
-	return function (e) {
-		var src = (e.target || e.srcElement);
-		var mode = (src.data || src.value);
-		delNetSection(ifname);
-		addNetSection(ifname, mode);
-	};
-}
-
 function appendSetting(p, path, value, mode) {
 	var id = path.join('#');
 	var b;
