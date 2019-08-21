@@ -515,7 +515,7 @@ jx = {
 						callback(result)
 					}
 				} else {
-					if (error) {
+					if (typeof error !== 'undefined' && error) {
 						error(http.status)
 					}
 				}
