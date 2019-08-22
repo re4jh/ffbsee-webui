@@ -1,7 +1,7 @@
 /* New Ones */
 
 function initialShow() {
-	show(document.querySelector('section#home'));
+	section_toggle('home');
 	hide(document.querySelector('#msg'));
 }
 
