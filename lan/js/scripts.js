@@ -21,7 +21,7 @@ function section_toggle(section_selector) {
 		case 'network':
 			init_network();
 			break;
-		case 'wifiscan':
+		case 'wifiscanner':
 			init_wifiscan();
 			break;
 		case 'settings':
@@ -43,7 +43,6 @@ function $(id) {
 }
 
 function show(e) {
-	console.log('show: ' + e.outerHTML);
 	if (e.style === 'undefined' || e.style.display === 'undefined') {
 		e.setAttribute("style", "display: block;");
 	} else {
