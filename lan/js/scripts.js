@@ -1977,7 +1977,7 @@ function signalToQuality(signal) {
 }
 
 function wifi_scan() {
-	var s = $('wifiscan_selection');
+	var s = $('#wifiscan_selection');
 	var device = s.options[s.selectedIndex].value;
 
 	send("/cgi-bin/misc", {
