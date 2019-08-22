@@ -69,7 +69,10 @@ function removeClass(e, c) {
 
 function setText(id, txt) {
 	$('#' + id).innerHTML = txt;
-	show($('#' + id));
+	if(id === 'msg' && txt !=='')
+	{
+		show($('msg'));
+	}
 }
 
 function inArray(item, array) {
