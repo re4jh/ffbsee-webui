@@ -43,6 +43,7 @@ function $(id) {
 }
 
 function show(e) {
+	console.log('show: ' + e.outerHTML);
 	if (e.style === 'undefined' || e.style.display === 'undefined') {
 		e.setAttribute("style", "display: block;");
 	} else {
@@ -2012,13 +2013,13 @@ function wifi_scan() {
 			}
 		}
 
-		var table = $('wifiscan_table');
+		var table = $('#wifiscan_table');
 		show(table);
 	});
 }
 
 function add_list_entry(device, ifname) {
-	var list = $('wifiscan_selection');
+	var list = $('#wifiscan_selection');
 	var o = append(list, 'option');
 	o.style.paddingRight = "1em";
 	o.innerHTML = device;
