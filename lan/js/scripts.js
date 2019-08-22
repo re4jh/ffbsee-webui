@@ -2,6 +2,7 @@
 
 function initialShow() {
 	section_toggle('home');
+	setTitle();
 	hide(document.querySelector('#msg'));
 }
 
