@@ -17,15 +17,15 @@
 
 	<nav>
 		<ul id="globalnav">
-			<li><a href="#" onclick="section_toggle('home')" id="menu_home">Home</a></li>
-			<li><a href="#" onclick="section_toggle('settings')" id="menu_settings">Einstellungen</a></li>
-			<li><a href="#" onclick="section_toggle('network')" id="menu_network">Netzwerk</a></li>
-			<li><a href="#" onclick="section_toggle('wifiscanner')" id="menu_wifiscanner">WLAN-Scan</a></li>
-			<li><a href="#" onclick="section_toggle('upgrade')" id="menu_upgrade">Upgrade</a></li>
-			<li><a href="#" onclick="section_toggle('password')" id="menu_password">Passwort</a></li>
-			<li><a href="#" onclick="reboot()">Neustart</a></li>
-			<li><a href="#" onclick="logout()">Logout</a></li>
-			<li><a href="#" onclick="adv_toggle(this)">Erweitert: Aus</a></li>
+			<li><a href="#section_home" onclick="section_toggle('home')" id="menu_home">Home</a></li>
+			<li><a href="#section_settings" onclick="section_toggle('settings')" id="menu_settings">Einstellungen</a></li>
+			<li><a href="#section_network" onclick="section_toggle('network')" id="menu_network">Netzwerk</a></li>
+			<li><a href="#section_wifiscanner" onclick="section_toggle('wifiscanner')" id="menu_wifiscanner">WLAN-Scan</a></li>
+			<li><a href="#section_upgrade" onclick="section_toggle('upgrade')" id="menu_upgrade">Upgrade</a></li>
+			<li><a href="#section_password" onclick="section_toggle('password')" id="menu_password">Passwort</a></li>
+			<li><a onclick="reboot()">Neustart</a></li>
+			<li><a onclick="logout()">Logout</a></li>
+			<li><a onclick="adv_toggle(this)">Erweitert: Aus</a></li>
 			<li class="icon">
 				<a href="#" style="font-size:15px;" onclick="$('#globalnav').toggleClass ( 'responsive' )">☰</a>
 			</li>

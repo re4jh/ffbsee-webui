@@ -1,7 +1,11 @@
 /* New Ones */
 
 function initialShow() {
-	section_toggle('home');
+	var myhash = 'home';
+	if (location.hash != '') {
+		mysection = location.hash.replace(/^(#section_)/,"");;
+	}
+	section_toggle(mysection);
 	setTitle();
 	hide(document.querySelector('#msg'));
 }
@@ -36,6 +40,9 @@ function section_toggle(section_selector) {
 			init_password();
 			break;
 	}
+	window.scrollTo({
+		top: 0,
+	});
 }
 
 /* imported from shared.js */
