@@ -78,7 +78,7 @@ function setText(id, txt) {
 	$('#' + id).innerHTML = txt;
 	if(id === 'msg' && txt !=='')
 	{
-		show($('msg'));
+		show($('#msg'));
 	}
 }
 
