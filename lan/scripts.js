@@ -1,7 +1,7 @@
 /* New Ones */
 
 function initialShow() {
-	var myhash = 'home';
+	var mysection = 'home';
 	if (location.hash != '') {
 		mysection = location.hash.replace(/^(#section_)/,"");;
 	}
